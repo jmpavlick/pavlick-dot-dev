@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <script src="./main.js"></script>
+    </head>
+    <body>
+        <div id="elm"></div>
+    </body>
+    <script>
+        let app = Elm.Main.init(
+            { node: document.getElementById('elm')
+            , flags : { initialWidth : window.innerWidth
+                      , initialHeight : window.innerHeight
+                      } 
+            }
+        )
+    </script>
+</html>

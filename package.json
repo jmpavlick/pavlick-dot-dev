@@ -1,0 +1,16 @@
+{
+  "name": "elm-ui-css-escape-plan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "elm-go src/Main.elm --open -- --output=main.js --debug"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "elm": "^0.19.1-5",
+    "elm-format": "^0.8.5",
+    "elm-go": "^5.0.19"
+  }
+}
