@@ -18,9 +18,15 @@ init { windowWidth, windowHeight } =
 
 
 type Msg
-    = UserResizedWindow Int Int
+    = ResizedWindow Int Int
+    | ClickedToggleTheme
 
 
 update : Msg -> Context -> Context
-update (UserResizedWindow windowWidth windowHeight) context =
-    { context | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
+update msg context =
+    case msg of
+        ResizedWindow windowWidth windowHeight ->
+            { context | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
+
+        ClickedToggleTheme ->
+            { context | theme = Theme.toggle context.theme }

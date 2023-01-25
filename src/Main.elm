@@ -49,15 +49,16 @@ update msg model =
             )
 
 
-view : Model -> Browser.Document msg
+view : Model -> Browser.Document Msg
 view model =
     { title = "pavlick dot dev"
     , body =
-        [ Element.layout model.context [] View.view
+        [ Element.map GotContextMsg View.view
+            |> Element.layout model.context []
         ]
     }
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Bvents.onResize (\w h -> GotContextMsg (Context.UserResizedWindow w h))
+    Bvents.onResize (\w h -> GotContextMsg (Context.ResizedWindow w h))

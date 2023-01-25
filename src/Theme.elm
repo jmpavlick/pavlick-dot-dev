@@ -21,6 +21,7 @@ toggle (Theme scheme _) =
 type alias Style =
     { textBase : Element.Color
     , textAccent : Element.Color
+    , background : Element.Color
     }
 
 
@@ -37,18 +38,25 @@ light : Style
 light =
     { textBase = charcoal
     , textAccent = lightGray
+    , background = white
     }
 
 
 dark : Style
 dark =
     { textBase = lightGray
-    , textAccent = charcoal
+    , textAccent = lightBlue
+    , background = charcoal
     }
 
 
 
 -- colors
+
+
+white : Element.Color
+white =
+    Element.rgb255 0xFF 0xFF 0xFF
 
 
 charcoal : Element.Color
@@ -59,3 +67,8 @@ charcoal =
 lightGray : Element.Color
 lightGray =
     Element.rgb255 0xA9 0xA9 0xA9
+
+
+lightBlue : Element.Color
+lightBlue =
+    Element.rgb255 0x75 0xF4 0xF6
