@@ -5,6 +5,7 @@ import Browser.Events as Bvents
 import Context exposing (Context)
 import Element.WithContext as Element
 import Html exposing (Html)
+import View
 
 
 main : Program Flags Model Msg
@@ -52,7 +53,7 @@ view : Model -> Browser.Document msg
 view model =
     { title = "pavlick dot dev"
     , body =
-        [ Html.text (Debug.toString <| model)
+        [ Element.layout model.context [] View.view
         ]
     }
 
