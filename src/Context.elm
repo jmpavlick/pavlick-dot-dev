@@ -32,6 +32,6 @@ update msg context =
             { context | theme = Theme.toggle context.theme }
 
 
-askAttr : (a -> Attribute { b | theme : Theme } msg) -> (Theme.Style -> a) -> Attribute { b | theme : Theme } msg
+askAttr : (a -> Attribute Context msg) -> (Theme.Style -> a) -> Attribute Context msg
 askAttr func accessor =
     Element.withAttribute .theme (\(Theme _ style) -> func (accessor style))
