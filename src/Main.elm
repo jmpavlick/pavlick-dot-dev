@@ -5,7 +5,6 @@ import Browser.Events as Bvents
 import Context exposing (Context)
 import Element.WithContext as Element
 import Element.WithContext.Background as Background
-import Html exposing (Html)
 import View
 
 

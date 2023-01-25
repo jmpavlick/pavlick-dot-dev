@@ -1,10 +1,10 @@
 module View exposing (view)
 
-import Context exposing (Context, Msg)
-import Element.WithContext as Element exposing (Attribute)
-import Element.WithContext.Background as Background
+import Context exposing (Context)
+import Element.WithContext as Element
 import Element.WithContext.Font as Font
 import Element.WithContext.Input as Input
+import Ionicon.Ios as Icon
 import Theme exposing (Theme(..))
 
 
@@ -41,7 +41,7 @@ navbar =
                     Element.text "dot"
                 , Element.el [] <| Element.text "dev"
                 ]
-        , Input.button [] { onPress = Just Context.ClickedToggleTheme, label = Element.text "(moon glyph)" }
+        , Input.button [] { onPress = Just Context.ClickedToggleTheme, label = Element.html <| Icon.moonOutline 40 { red = 1, green = 0, blue = 0, alpha = 1 } }
         ]
 
 
