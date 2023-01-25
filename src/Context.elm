@@ -1,7 +1,7 @@
-module Context exposing (Context, Msg(..), init, update)
+module Context exposing (Context, Msg(..), askAttr, init, update)
 
-import Element.WithContext as Element
-import Theme exposing (Theme)
+import Element.WithContext as Element exposing (Attribute)
+import Theme exposing (Theme(..))
 
 
 type alias Context =
@@ -30,3 +30,8 @@ update msg context =
 
         ClickedToggleTheme ->
             { context | theme = Theme.toggle context.theme }
+
+
+askAttr : (a -> Attribute { b | theme : Theme } msg) -> (Theme.Style -> a) -> Attribute { b | theme : Theme } msg
+askAttr func accessor =
+    Element.withAttribute .theme (\(Theme _ style) -> func (accessor style))

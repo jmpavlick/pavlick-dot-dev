@@ -4,6 +4,7 @@ import Browser
 import Browser.Events as Bvents
 import Context exposing (Context)
 import Element.WithContext as Element
+import Element.WithContext.Background as Background
 import Html exposing (Html)
 import View
 
@@ -54,7 +55,11 @@ view model =
     { title = "pavlick dot dev"
     , body =
         [ Element.map GotContextMsg View.view
-            |> Element.layout model.context []
+            |> Element.layout model.context
+                [ Context.askAttr
+                    Background.color
+                    .background
+                ]
         ]
     }
 
