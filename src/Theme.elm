@@ -1,6 +1,8 @@
-module Theme exposing (Style, Theme(..), init, toggle)
+module Theme exposing (Style, Theme(..), init, mapSchemeIcon, toggle)
 
-import Element.WithContext as Element
+import Element.WithContext as Element exposing (Element)
+import Html exposing (Html)
+import Ionicon.Ios as Icon
 
 
 init : Theme
@@ -22,6 +24,7 @@ type alias Style =
     { textBase : Element.Color
     , textAccent : Element.Color
     , background : Element.Color
+    , schemeIcon : SchemeIcon
     }
 
 
@@ -39,15 +42,39 @@ light =
     { textBase = brown
     , textAccent = lightGray
     , background = straw
+    , schemeIcon = Moon
     }
 
 
 dark : Style
 dark =
     { textBase = lightGray
-    , textAccent = lightBlue
+    , textAccent = yellow
     , background = charcoal
+    , schemeIcon = Sun
     }
+
+
+type SchemeIcon
+    = Sun
+    | Moon
+
+
+mapSchemeIcon : Style -> Element context msg
+mapSchemeIcon style =
+    let
+        icon : Int -> { red : Float, green : Float, blue : Float, alpha : Float } -> Html msg
+        icon =
+            case style.schemeIcon of
+                Sun ->
+                    Icon.sunnyOutline
+
+                Moon ->
+                    Icon.moonOutline
+    in
+    Element.toRgb style.textAccent
+        |> icon 40
+        |> Element.html
 
 
 
@@ -64,9 +91,9 @@ brown =
     Element.rgb255 0x5F 0x4B 0x32
 
 
-white : Element.Color
-white =
-    Element.rgb255 0xFF 0xFF 0xFF
+yellow : Element.Color
+yellow =
+    Element.rgb255 0xEC 0xFF 0x00
 
 
 charcoal : Element.Color
@@ -77,8 +104,3 @@ charcoal =
 lightGray : Element.Color
 lightGray =
     Element.rgb255 0xA9 0xA9 0xA9
-
-
-lightBlue : Element.Color
-lightBlue =
-    Element.rgb255 0x75 0xF4 0xF6

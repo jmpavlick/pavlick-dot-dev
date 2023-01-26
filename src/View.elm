@@ -46,14 +46,7 @@ navbar =
             [ Element.focused []
             ]
             { onPress = Just Context.ClickedToggleTheme
-            , label =
-                Context.ask
-                    (\iconColor ->
-                        Element.toRgb iconColor
-                            |> Icon.moonOutline 40
-                            |> Element.html
-                    )
-                    .textAccent
+            , label = Context.ask Theme.mapSchemeIcon identity
             }
         ]
 
