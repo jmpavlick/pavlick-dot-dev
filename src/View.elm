@@ -2,6 +2,7 @@ module View exposing (view)
 
 import Context exposing (Context)
 import Element.WithContext as Element
+import Element.WithContext.Border as Border
 import Element.WithContext.Font as Font
 import Element.WithContext.Input as Input
 import Ionicon.Ios as Icon
@@ -41,7 +42,9 @@ navbar =
                     Element.text "dot"
                 , Element.el [] <| Element.text "dev"
                 ]
-        , Input.button []
+        , Input.button
+            [ Element.focused []
+            ]
             { onPress = Just Context.ClickedToggleTheme
             , label =
                 Context.ask
