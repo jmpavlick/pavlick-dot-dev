@@ -17,6 +17,8 @@ view =
         , Element.width Element.fill
         , Element.padding 20
         , Element.spacingXY 0 40
+        , Element.width <| Element.maximum 800 Element.fill
+        , Element.centerX
         ]
         [ navbar
         , title
