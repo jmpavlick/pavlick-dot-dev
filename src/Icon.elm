@@ -1,4 +1,4 @@
-module Icon exposing (..)
+module Icon exposing (bullets, essay, moon, sun)
 
 import Element.WithContext as Element exposing (Element)
 import Html exposing (Html)
