@@ -1,6 +1,6 @@
-module Context exposing (Context, Msg(..), askAttr, init, update)
+module Context exposing (Context, Msg(..), ask, askAttr, init, update)
 
-import Element.WithContext as Element exposing (Attribute)
+import Element.WithContext as Element exposing (Attribute, Element)
 import Theme exposing (Theme(..))
 
 
@@ -35,3 +35,8 @@ update msg context =
 askAttr : (a -> Attribute Context msg) -> (Theme.Style -> a) -> Attribute Context msg
 askAttr func accessor =
     Element.withAttribute .theme (\(Theme _ style) -> func (accessor style))
+
+
+ask : (a -> Element Context msg) -> (Theme.Style -> a) -> Element Context msg
+ask func accessor =
+    Element.with .theme (\(Theme _ style) -> func (accessor style))

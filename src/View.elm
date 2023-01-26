@@ -41,7 +41,17 @@ navbar =
                     Element.text "dot"
                 , Element.el [] <| Element.text "dev"
                 ]
-        , Input.button [] { onPress = Just Context.ClickedToggleTheme, label = Element.html <| Icon.moonOutline 40 { red = 1, green = 0, blue = 0, alpha = 1 } }
+        , Input.button []
+            { onPress = Just Context.ClickedToggleTheme
+            , label =
+                Context.ask
+                    (\iconColor ->
+                        Element.toRgb iconColor
+                            |> Icon.moonOutline 40
+                            |> Element.html
+                    )
+                    .textAccent
+            }
         ]
 
 
