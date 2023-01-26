@@ -2,7 +2,7 @@ module Theme exposing (Style, Theme(..), init, mapSchemeIcon, toggle)
 
 import Element.WithContext as Element exposing (Element)
 import Html exposing (Html)
-import Ionicon.Ios as Icon
+import Icon
 
 
 init : Theme
@@ -62,19 +62,14 @@ type SchemeIcon
 
 mapSchemeIcon : Style -> Element context msg
 mapSchemeIcon style =
-    let
-        icon : Int -> { red : Float, green : Float, blue : Float, alpha : Float } -> Html msg
-        icon =
-            case style.schemeIcon of
-                Sun ->
-                    Icon.sunnyOutline
+    (case style.schemeIcon of
+        Sun ->
+            Icon.sun
 
-                Moon ->
-                    Icon.moonOutline
-    in
-    Element.toRgb style.textAccent
-        |> icon 40
-        |> Element.html
+        Moon ->
+            Icon.moon
+    )
+        style.textAccent
 
 
 
@@ -103,4 +98,4 @@ charcoal =
 
 lightGray : Element.Color
 lightGray =
-    Element.rgb255 0xA9 0xA9 0xA9
+    Element.rgb255 0xAA 0xAA 0xAA

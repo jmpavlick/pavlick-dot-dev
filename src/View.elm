@@ -1,6 +1,7 @@
 module View exposing (view)
 
-import Context exposing (Context)
+import Context exposing (Context, Msg)
+import Element exposing (Element)
 import Element.WithContext as Element
 import Element.WithContext.Border as Border
 import Element.WithContext.Font as Font
@@ -9,18 +10,16 @@ import Ionicon.Ios as Icon
 import Theme exposing (Theme(..))
 
 
-type alias Element msg =
-    Element.Element Context msg
-
-
 view : Element Context.Msg
 view =
     Element.column
         [ Context.askAttr Font.color .textBase
         , Element.width Element.fill
+        , Element.padding 20
         ]
         [ navbar
         , title
+        , description
         ]
 
 
@@ -28,7 +27,6 @@ navbar : Element Context.Msg
 navbar =
     Element.row
         [ Element.width Element.fill
-        , Element.padding 20
         , Element.spaceEvenly
         , Element.alignTop
         ]
@@ -51,6 +49,11 @@ navbar =
         ]
 
 
+textLink : { url : String, label : String } -> Element msg
+textLink { url, label } =
+    Element.newTabLink [ Context.askAttr Font.color .textAccent, Font.underline ] { url = url, label = Element.text label }
+
+
 title : Element msg
 title =
     Element.column [ Element.centerX ]
@@ -58,3 +61,19 @@ title =
         , Element.el [ Element.centerX ] <| Element.text "john pavlick"
         , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
         ]
+
+
+description : Element msg
+description =
+    Element.paragraph [ Element.paddingEach { top = 40, bottom = 0, left = 0, right = 0 } ]
+        [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
+        , textLink { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've probably written more SQL than you have. Sometimes I write essays about the interesting parts of software engineering at "
+        , textLink { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
+        , Element.text "."
+        ]
+
+
+switcher : Element msg
+switcher =
+    Element.row [] []
