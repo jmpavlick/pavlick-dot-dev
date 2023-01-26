@@ -61,6 +61,7 @@ navbar =
 title : Element msg
 title =
     Element.column [ Element.centerX ]
-        [ Element.el [ Element.centerX ] <| Element.text "john pavlick"
+        [ Element.el [ Element.width <| Element.px 128, Element.height <| Element.px 128, Element.centerX, Border.rounded 64, Element.clip ] <| Element.image [ Element.width <| Element.px 128, Element.height <| Element.px 128 ] { src = "./john.png", description = "john pavlick" }
+        , Element.el [ Element.centerX ] <| Element.text "john pavlick"
         , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
         ]

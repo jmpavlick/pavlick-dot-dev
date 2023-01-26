@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "elm make src/Main.elm --optimize --output=main.js",
     "start": "elm-go src/Main.elm --open -- --output=main.js --debug"
   },
   "author": "",
