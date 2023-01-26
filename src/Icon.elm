@@ -21,3 +21,13 @@ moon =
 sun : Element.Color -> Element context msg
 sun =
     map Icon.sunnyOutline
+
+
+essay : Element.Color -> Element context msg
+essay =
+    map Icon.bookOutline
+
+
+bullets : Element.Color -> Element context msg
+bullets =
+    map Icon.listOutline
