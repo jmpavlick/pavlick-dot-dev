@@ -36,9 +36,9 @@ type Scheme
 
 light : Style
 light =
-    { textBase = charcoal
+    { textBase = brown
     , textAccent = lightGray
-    , background = white
+    , background = straw
     }
 
 
@@ -52,6 +52,16 @@ dark =
 
 
 -- colors
+
+
+straw : Element.Color
+straw =
+    Element.rgb255 0xFA 0xF0 0xD8
+
+
+brown : Element.Color
+brown =
+    Element.rgb255 0x5F 0x4B 0x32
 
 
 white : Element.Color
