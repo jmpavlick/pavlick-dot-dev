@@ -241,9 +241,9 @@ resumeContent style activeResumeView { essay, bullets } =
                 Bullets ->
                     bullets
     in
-    case MarkdownE.markdownView content of
+    case MarkdownE.render content of
         Ok elems ->
-            Element.column [] elems
+            Element.column [ Element.spacingXY 16 16 ] elems
 
         Err error ->
             Element.text error
