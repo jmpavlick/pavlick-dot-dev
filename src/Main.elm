@@ -45,7 +45,7 @@ init : Flags -> ( Model, Cmd Msg )
 init { initialWidth, initialHeight, essay, bullets } =
     ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
       , theme = Theme.init
-      , resumeView = Essay
+      , resumeView = Bullets
       , resumes = { essay = essay, bullets = bullets }
       }
     , Cmd.none
