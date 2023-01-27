@@ -8,6 +8,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Icon
+import Markdown.Html as Mhtml
 import Theme exposing (Theme)
 
 
@@ -217,3 +218,8 @@ switcher style activeResumeView =
         [ button (activeResumeView == Essay) Essay "Essay" Icon.essay
         , button (activeResumeView == Bullets) Bullets "Bullets" Icon.bullets
         ]
+
+
+resumeContent : Theme.Style -> ResumeView -> Element Msg
+resumeContent style activeResumeView =
+    Element.text "yooo i'm good at work and jobs etc"
