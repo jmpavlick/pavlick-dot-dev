@@ -1,4 +1,4 @@
-module Theme exposing (ApplyStyle, Style, Theme, init, mapSchemeIcon, style, toggle)
+module Theme exposing (Style, Theme, init, mapSchemeIcon, toggle, unwrapStyle)
 
 import Element as Element exposing (Element)
 import Icon
@@ -31,13 +31,9 @@ type Theme
     = Theme Scheme Style
 
 
-type alias ApplyStyle a b =
-    (a -> b) -> (Style -> a) -> b
-
-
-style : Theme -> ApplyStyle a b
-style (Theme _ s) func accessor =
-    accessor s |> func
+unwrapStyle : Theme -> Style
+unwrapStyle (Theme _ s) =
+    s
 
 
 type Scheme

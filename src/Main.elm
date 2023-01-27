@@ -4,6 +4,8 @@ import Browser
 import Browser.Events as Bvents
 import Element exposing (Element)
 import Element.Background as Background
+import Element.Font as Font
+import Element.Input as Input
 import Theme exposing (Theme)
 
 
@@ -82,14 +84,15 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view { device, theme, resumeView } =
     let
-        style : Theme.ApplyStyle a b
+        style : Theme.Style
         style =
-            Theme.style theme
+            Theme.unwrapStyle theme
     in
     { title = "pavlick dot dev"
     , body =
         [ Element.layout
-            [ style Background.color .background
+            [ Background.color style.background
+            , Font.color style.textBase
             ]
           <|
             page style resumeView
@@ -97,6 +100,54 @@ view { device, theme, resumeView } =
     }
 
 
-page : Theme.ApplyStyle a b -> ResumeView -> Element Msg
+page : Theme.Style -> ResumeView -> Element Msg
 page style resumeView =
-    Element.text "yooo"
+    Element.column
+        [ Element.width Element.fill
+        , Element.padding 20
+        , Element.spacingXY 0 40
+        , Element.width <| Element.maximum 800 Element.fill
+        , Element.centerX
+        ]
+        [ navbar style
+        , title
+        , description
+        , switcher
+        ]
+
+
+navbar : Theme.Style -> Element Msg
+navbar style =
+    Element.row
+        [ Element.width Element.fill
+        , Element.spaceEvenly
+        , Element.alignTop
+        ]
+        [ Element.el [] <|
+            Element.paragraph [ Font.letterSpacing 4 ]
+                [ Element.el [] <| Element.text "pavlick"
+                , Element.el [ Font.color style.textAccent ] <| Element.text "dot"
+                , Element.el [] <| Element.text "dev"
+                ]
+        , Input.button
+            [ Element.focused []
+            ]
+            { onPress = Just ClickedToggleTheme
+            , label = Theme.mapSchemeIcon style
+            }
+        ]
+
+
+title : Element msg
+title =
+    Element.none
+
+
+description : Element msg
+description =
+    Element.none
+
+
+switcher : Element msg
+switcher =
+    Element.none

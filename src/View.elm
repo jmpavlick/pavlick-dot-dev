@@ -11,8 +11,7 @@ import Theme exposing (Theme(..))
 view : Element Context.Msg
 view =
     Element.column
-        [ Context.askAttr Font.color .textBase
-        , Element.width Element.fill
+        [ Element.width Element.fill
         , Element.padding 20
         , Element.spacingXY 0 40
         , Element.width <| Element.maximum 800 Element.fill
