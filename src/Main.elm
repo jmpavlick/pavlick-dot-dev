@@ -2,10 +2,13 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events as Bvents
-import Context exposing (Context)
-import Element.WithContext as Element
-import Element.WithContext.Background as Background
-import View
+import Element exposing (Element)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
+import Element.Input as Input
+import Icon
+import Theme exposing (Theme)
 
 
 main : Program Flags Model Msg
@@ -19,16 +22,28 @@ main =
 
 
 type Msg
-    = GotContextMsg Context.Msg
+    = ResizedWindow Int Int
+    | ClickedToggleTheme
+    | ClickedResumeViewButton ResumeView
 
 
 type alias Model =
-    { context : Context }
+    { device : Element.Device
+    , theme : Theme
+    , resumeView : ResumeView
+    }
+
+
+type ResumeView
+    = Essay
+    | Bullets
 
 
 init : Flags -> ( Model, Cmd Msg )
 init { initialWidth, initialHeight } =
-    ( { context = Context.init { windowWidth = initialWidth, windowHeight = initialHeight }
+    ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
+      , theme = Theme.init
+      , resumeView = Essay
       }
     , Cmd.none
     )
@@ -43,26 +58,146 @@ type alias Flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GotContextMsg ctxMsg ->
-            ( { model | context = Context.update ctxMsg model.context }
+        ResizedWindow windowWidth windowHeight ->
+            ( { model | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
+            , Cmd.none
+            )
+
+        ClickedToggleTheme ->
+            ( { model | theme = Theme.toggle model.theme }
+            , Cmd.none
+            )
+
+        ClickedResumeViewButton resumeView ->
+            ( { model | resumeView = resumeView }
             , Cmd.none
             )
 
 
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Bvents.onResize (\w h -> ResizedWindow w h)
+
+
+
+-- VIEW
+
+
 view : Model -> Browser.Document Msg
-view model =
+view { device, theme, resumeView } =
+    let
+        style : Theme.Style
+        style =
+            Theme.unwrapStyle theme
+    in
     { title = "pavlick dot dev"
     , body =
-        [ Element.map GotContextMsg View.view
-            |> Element.layout model.context
-                [ Context.askAttr
-                    Background.color
-                    .background
-                ]
+        [ Element.layout
+            [ Background.color style.background
+            , Font.color style.textBase
+            ]
+          <|
+            page style resumeView
         ]
     }
 
 
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Bvents.onResize (\w h -> GotContextMsg (Context.ResizedWindow w h))
+textLink : Theme.Style -> { url : String, label : String } -> Element msg
+textLink style { url, label } =
+    Element.newTabLink [ Font.color style.textAccent, Font.underline ] { url = url, label = Element.text label }
+
+
+page : Theme.Style -> ResumeView -> Element Msg
+page style resumeView =
+    Element.column
+        [ Element.width Element.fill
+        , Element.padding 20
+        , Element.spacingXY 0 40
+        , Element.width <| Element.maximum 800 Element.fill
+        , Element.centerX
+        ]
+        [ navbar style
+        , title
+        , description (textLink style)
+        , switcher style
+        ]
+
+
+navbar : Theme.Style -> Element Msg
+navbar style =
+    Element.row
+        [ Element.width Element.fill
+        , Element.spaceEvenly
+        , Element.alignTop
+        ]
+        [ Element.el [] <|
+            Element.paragraph [ Font.letterSpacing 4 ]
+                [ Element.el [] <| Element.text "pavlick"
+                , Element.el [ Font.color style.textAccent ] <| Element.text "dot"
+                , Element.el [] <| Element.text "dev"
+                ]
+        , Input.button
+            [ Element.focused []
+            ]
+            { onPress = Just ClickedToggleTheme
+            , label = Theme.mapSchemeIcon style
+            }
+        ]
+
+
+title : Element msg
+title =
+    Element.column [ Element.centerX ]
+        [ Element.el
+            [ Element.width <| Element.px 128
+            , Element.height <| Element.px 128
+            , Element.centerX
+            , Border.rounded 64
+            , Element.clip
+            ]
+          <|
+            Element.image [ Element.width <| Element.px 128, Element.height <| Element.px 128 ] { src = "./john.png", description = "john pavlick" }
+        , Element.el [ Element.centerX ] <| Element.text "john pavlick"
+        , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
+        ]
+
+
+description : ({ url : String, label : String } -> Element msg) -> Element msg
+description link =
+    Element.paragraph []
+        [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
+        , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've probably written more SQL than you have. Sometimes I write essays about the interesting parts of software engineering at "
+        , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
+        , Element.text "."
+        ]
+
+
+switcherButton : Theme.Style -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+switcherButton style resumeView labelText icon =
+    Input.button
+        [ Element.focused
+            [ Border.color style.textBase
+            ]
+        , Border.rounded 16
+        ]
+        { onPress = ClickedResumeViewButton resumeView |> Just
+        , label =
+            Element.row [ Element.spacingXY 10 0 ]
+                [ icon style.textAccent
+                , Element.text labelText
+                ]
+        }
+
+
+switcher : Theme.Style -> Element Msg
+switcher style =
+    let
+        button : ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+        button =
+            switcherButton style
+    in
+    Element.row [ Element.spacingXY 16 0, Element.centerX ]
+        [ button Essay "Essay" Icon.essay
+        , button Bullets "Bullets" Icon.bullets
+        ]
