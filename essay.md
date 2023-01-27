@@ -57,11 +57,3 @@ After I was hired direct by Diplomat, I continued in my role as an **ETL archite
 ## John Deere Landscapes - Troy, MI
 
 **From 2010-2012**, I worked as an **Associate IT Analyst** for John Deere Landscapes. I was part of a team responsible for the development and maintenance of an in-house **Windows Forms and SQL Server** monolith that handled essential business functions, including but not limited to: sales, purchasing, instore point-of-sale, and reporting. I worked extensively on a hybrid T-SQL reporting engine.
-
-## Go / No-Go
-
-I am currently looking for **an additional part-time role as an Elm developer**. My work at Ideal Machinery has been slowing down over the last year, as the owners are considering liquidating the business and re-investing in other business ventures.
-
-I took my current full-time role at Caribou Financial with the promise of getting to work full-time as an Elm developer; however, with the insurance rate-shopping product's de-prioritization, and owing to my rapid ascendance within the organization, I have been asked to shift my focus to acting as a force-multiplier for other engineers. I view this as vital to my career progression, and I'm certainly grateful for the opportunity to develop into a Staff Engineer; but **I still want to write code. Specifically - large-scale Elm applications.**
-
-I enjoy backend / data engineering work, but I am only interested in doing that work to support an Elm application. I am not looking for a backend / data engineer role; and I never want to look at Dell Boomi integrations ever, ever again. 

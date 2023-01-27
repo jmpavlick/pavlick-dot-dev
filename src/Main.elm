@@ -8,7 +8,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Icon
-import Markdown
+import Markdown.Extensions as MarkdownE
 import Theme exposing (Theme)
 
 
@@ -231,12 +231,19 @@ switcher style activeResumeView =
 
 resumeContent : Theme.Style -> ResumeView -> Resumes -> Element Msg
 resumeContent style activeResumeView { essay, bullets } =
-    Markdown.toHtml []
-        (case activeResumeView of
-            Essay ->
-                essay
+    let
+        content : String
+        content =
+            case activeResumeView of
+                Essay ->
+                    essay
 
-            Bullets ->
-                bullets
-        )
-        |> Element.html
+                Bullets ->
+                    bullets
+    in
+    case MarkdownE.markdownView content of
+        Ok elems ->
+            Element.column [] elems
+
+        Err error ->
+            Element.text error

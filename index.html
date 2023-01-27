@@ -6,14 +6,20 @@
         <div id="elm"></div>
     </body>
     <script>
-        let app = Elm.Main.init(
-            { node: document.getElementById('elm')
-            , flags : { initialWidth : window.innerWidth
-                      , initialHeight : window.innerHeight
-                      , essay : "essay markdown"
-                      , bullets : "bullets markdown"
-                      } 
-            }
-        )
+        const fetchEssay = fetch('./essay.md').then(essay => essay.text());
+        const fetchBullets = fetch('/bullets.md').then(bullets => bullets.text());
+        
+        Promise.all([ fetchEssay, fetchBullets ])
+            .then(([ essay, bullets ]) => {
+                let app = Elm.Main.init(
+                    { node: document.getElementById('elm')
+                    , flags : { initialWidth : window.innerWidth
+                              , initialHeight : window.innerHeight
+                              , essay : essay
+                              , bullets : bullets
+                              } 
+                    }
+                )
+        });
     </script>
 </html>
