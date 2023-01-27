@@ -2,10 +2,9 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events as Bvents
-import Context exposing (Context)
-import Element.WithContext as Element
-import Element.WithContext.Background as Background
-import View
+import Element as Element
+import Element.Background as Background
+import Theme exposing (Theme(..))
 
 
 main : Program Flags Model Msg
@@ -19,16 +18,28 @@ main =
 
 
 type Msg
-    = GotContextMsg Context.Msg
+    = ResizedWindow Int Int
+    | ClickedToggleTheme
+    | ClickedResumeViewButton ResumeView
 
 
 type alias Model =
-    { context : Context }
+    { device : Element.Device
+    , theme : Theme
+    , resumeView : ResumeView
+    }
+
+
+type ResumeView
+    = Essay
+    | Bullets
 
 
 init : Flags -> ( Model, Cmd Msg )
 init { initialWidth, initialHeight } =
-    ( { context = Context.init { windowWidth = initialWidth, windowHeight = initialHeight }
+    ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
+      , theme = Theme.init
+      , resumeView = Essay
       }
     , Cmd.none
     )
@@ -43,26 +54,45 @@ type alias Flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GotContextMsg ctxMsg ->
-            ( { model | context = Context.update ctxMsg model.context }
+        ResizedWindow windowWidth windowHeight ->
+            ( { model | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
+            , Cmd.none
+            )
+
+        ClickedToggleTheme ->
+            ( { model | theme = Theme.toggle model.theme }
+            , Cmd.none
+            )
+
+        ClickedResumeViewButton resumeView ->
+            ( { model | resumeView = resumeView }
             , Cmd.none
             )
 
 
-view : Model -> Browser.Document Msg
-view model =
-    { title = "pavlick dot dev"
-    , body =
-        [ Element.map GotContextMsg View.view
-            |> Element.layout model.context
-                [ Context.askAttr
-                    Background.color
-                    .background
-                ]
-        ]
-    }
-
-
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Bvents.onResize (\w h -> GotContextMsg (Context.ResizedWindow w h))
+    Bvents.onResize (\w h -> ResizedWindow w h)
+
+
+
+-- VIEW
+
+
+view : Model -> Browser.Document Msg
+view { device, theme, resumeView } =
+    let
+        style : Theme.Style
+        style =
+            (\(Theme _ sstyle) -> sstyle) theme
+    in
+    { title = "pavlick dot dev"
+    , body =
+        [ Element.layout
+            [ Background.color
+                style.background
+            ]
+          <|
+            Element.text "hello"
+        ]
+    }

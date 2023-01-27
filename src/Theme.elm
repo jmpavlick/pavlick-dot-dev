@@ -1,7 +1,6 @@
 module Theme exposing (Style, Theme(..), init, mapSchemeIcon, toggle)
 
-import Element.WithContext as Element exposing (Element)
-import Html exposing (Html)
+import Element as Element exposing (Element)
 import Icon
 
 
@@ -60,7 +59,7 @@ type SchemeIcon
     | Moon
 
 
-mapSchemeIcon : Style -> Element context msg
+mapSchemeIcon : Style -> Element msg
 mapSchemeIcon style =
     (case style.schemeIcon of
         Sun ->

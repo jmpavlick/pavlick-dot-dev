@@ -1,11 +1,9 @@
 module View exposing (view)
 
-import Context exposing (Context, Msg)
-import Element exposing (Element)
-import Element.WithContext as Element
-import Element.WithContext.Border as Border
-import Element.WithContext.Font as Font
-import Element.WithContext.Input as Input
+import Element as Element exposing (Element)
+import Element.Border as Border
+import Element.Font as Font
+import Element.Input as Input
 import Icon
 import Theme exposing (Theme(..))
 
