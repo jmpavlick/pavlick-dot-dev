@@ -174,7 +174,7 @@ title =
 
 description : ({ url : String, label : String } -> Element msg) -> Element msg
 description link =
-    Element.paragraph []
+    Element.paragraph [ Font.justify ]
         [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
         , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
         , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've probably written more SQL than you have. Sometimes I write essays about the interesting parts of software engineering at "
@@ -243,7 +243,7 @@ resumeContent style activeResumeView { essay, bullets } =
     in
     case MarkdownE.render content of
         Ok elems ->
-            Element.column [ Element.spacingXY 16 16 ] elems
+            Element.column [ Element.spacingXY 16 24 ] elems
 
         Err error ->
             Element.text error

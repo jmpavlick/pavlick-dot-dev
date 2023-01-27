@@ -1,11 +1,11 @@
 module Markdown.Extensions exposing (render)
 
-import Element exposing (Element)
+import Element exposing (Attribute, Element)
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Html
+import Html exposing (Html)
 import Html.Attributes as Attr
 import Markdown.Block as Block
 import Markdown.Html as MHtml
@@ -16,6 +16,7 @@ import Markdown.Renderer as Renderer exposing (Renderer)
 render : String -> Result String (List (Element msg))
 render markdown =
     Parser.parse markdown
+        |> Debug.log "ast"
         |> Result.mapError
             (\error ->
                 List.map Parser.deadEndToString error
@@ -27,10 +28,10 @@ render markdown =
 renderer : Renderer (Element msg)
 renderer =
     { heading = heading
-    , paragraph = Element.paragraph [ Element.spacing 15 ]
+    , paragraph = Element.paragraph [ Font.justify ]
     , thematicBreak = Element.none
     , text = Element.text
-    , strong = Element.row [ Font.bold ]
+    , strong = Element.row [ Font.semiBold ]
     , emphasis = Element.row [ Font.italic ]
     , strikethrough = Element.row [ Font.strike ]
     , codeSpan = codeSpan
@@ -62,13 +63,13 @@ heading { level, rawText, children } =
         [ Font.size
             (case level of
                 Block.H1 ->
-                    36
-
-                Block.H2 ->
                     24
 
-                _ ->
+                Block.H2 ->
                     20
+
+                _ ->
+                    16
             )
         , Font.bold
         , Region.heading <| Block.headingLevelToInt level

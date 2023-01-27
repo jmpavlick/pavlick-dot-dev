@@ -4,7 +4,7 @@
 
 **In 2022**, I decided to hire some of my friends to help me **create my own software product company**. As a hobby, I race bicycle motocross professionally; I have a thorough and systemic knowledge of every aspect of the sport, and I've decided to use that experience to **launch products in an underserved niche**. We have just launched our first product - Gearbag, a truly unique cross-platform mobile application that makes it easier to calculate, compare, and adjust bicycle gearing. I've built the application with **Elm and Ionic Capacitor**. (More information is available at https://gatesnaplabs.com/)
 
-I've not only had an opportunity to tackle greenfield engineering work in an unfamiliar domain - this is my first mobile app - but I've also been able to develop my leadership skills to a greater extent, as well as **oversee the development of a _product_ end-to-end**. We're in our launch and marketing cycle for Gearbag right now, with a few other products in the pipeline.
+I've not only had an opportunity to tackle greenfield engineering work in an unfamiliar domain - this is my first mobile app - but I've also been able to develop my leadership skills to a greater extent, as well as **oversee the development of a product end-to-end**. We're in our launch and marketing cycle for Gearbag right now, with a few other products in the pipeline.
 
 Ultimately, while I believe that profitability is possible, none of these ideas are million-dollar ideas; the true value for this effort - and why it's the first piece of experience listed on my resume - is that **I can't think of a better way to develop my leadership and product engineering skills**, than to build something myself, with some of the smartest people that I know.
 

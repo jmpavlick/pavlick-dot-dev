@@ -13,9 +13,9 @@ Caribou Financial is a fintech company in the automotive refinance space. I join
 * Shared context for all project work across the team; all engineers on my team were able to work any story on any of our projects during the sprint
 * Championed toolbuilding, process improvement, tech debt elimination, and found ways to maximize the value that our team could deliver
 * Developed our team's "ways of working" in conjunction with my Engineering Manager and Product Manager to create a set of ideas and practices that encompassed virtually everything that we did as a team - including, but not limited to:
-    * Engineering values
-    * Communciations practices
-    * Meeting schedule / cadence / participation
+    - Engineering values
+    - Communciations practices
+    - Meeting schedule / cadence / participation
 * Audited several production systems to determine root causes of fragility within our organization's codebases, and worked with my engineers and Engineering Manager to scope and plan remediation
 
 ## Ideal Machinery - Grand Blanc, MI
