@@ -78,10 +78,15 @@ description =
         ]
 
 
-switcherButton : Maybe Context.Msg -> String -> (Element.Color -> Element Context.Msg) -> Element Context.Msg
-switcherButton msg labelText icon =
-    Input.button []
-        { onPress = msg
+switcherButton : Context.ResumeView -> String -> (Element.Color -> Element Context.Msg) -> Element Context.Msg
+switcherButton resumeView labelText icon =
+    Input.button
+        [ Element.focused
+            [ Context.askDecoration Border.color .textBase
+            ]
+        , Border.rounded 16
+        ]
+        { onPress = Context.ClickedResumeViewButton resumeView |> Just
         , label =
             Element.row [ Element.spacingXY 10 0 ]
                 [ Context.ask icon .textAccent
@@ -93,6 +98,6 @@ switcherButton msg labelText icon =
 switcher : Element Context.Msg
 switcher =
     Element.row [ Element.spacingXY 16 0, Element.centerX ]
-        [ switcherButton Nothing "Essay" Icon.essay
-        , switcherButton Nothing "Bullets" Icon.bullets
+        [ switcherButton Context.Essay "Essay" Icon.essay
+        , switcherButton Context.Bullets "Bullets" Icon.bullets
         ]
