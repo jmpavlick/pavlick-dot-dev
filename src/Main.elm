@@ -7,6 +7,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
+import Icon
 import Theme exposing (Theme)
 
 
@@ -117,8 +118,8 @@ page style resumeView =
         ]
         [ navbar style
         , title
-        , description
-        , switcher
+        , description (textLink style)
+        , switcher style
         ]
 
 
@@ -161,11 +162,42 @@ title =
         ]
 
 
-description : Element msg
-description =
-    Element.none
+description : ({ url : String, label : String } -> Element msg) -> Element msg
+description link =
+    Element.paragraph []
+        [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
+        , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've probably written more SQL than you have. Sometimes I write essays about the interesting parts of software engineering at "
+        , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
+        , Element.text "."
+        ]
 
 
-switcher : Element msg
-switcher =
-    Element.none
+switcherButton : Theme.Style -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+switcherButton style resumeView labelText icon =
+    Input.button
+        [ Element.focused
+            [ Border.color style.textBase
+            ]
+        , Border.rounded 16
+        ]
+        { onPress = ClickedResumeViewButton resumeView |> Just
+        , label =
+            Element.row [ Element.spacingXY 10 0 ]
+                [ icon style.textAccent
+                , Element.text labelText
+                ]
+        }
+
+
+switcher : Theme.Style -> Element Msg
+switcher style =
+    let
+        button : ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+        button =
+            switcherButton style
+    in
+    Element.row [ Element.spacingXY 16 0, Element.centerX ]
+        [ button Essay "Essay" Icon.essay
+        , button Bullets "Bullets" Icon.bullets
+        ]
