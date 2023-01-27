@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events as Bvents
-import Element exposing (Element)
+import Element exposing (Attribute, Element)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -119,7 +119,7 @@ page style resumeView =
         [ navbar style
         , title
         , description (textLink style)
-        , switcher style
+        , switcher style resumeView
         ]
 
 
@@ -173,8 +173,18 @@ description link =
         ]
 
 
-switcherButton : Theme.Style -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
-switcherButton style resumeView labelText icon =
+switcherButton : Theme.Style -> Bool -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+switcherButton style active resumeView labelText icon =
+    let
+        borderColor : Attribute Msg
+        borderColor =
+            Border.color <|
+                if active then
+                    style.textBase
+
+                else
+                    style.background
+    in
     Input.button
         [ Element.focused
             [ Border.color style.textBase
@@ -183,21 +193,27 @@ switcherButton style resumeView labelText icon =
         ]
         { onPress = ClickedResumeViewButton resumeView |> Just
         , label =
-            Element.row [ Element.spacingXY 10 0 ]
+            Element.row
+                (borderColor
+                    :: [ Border.width 2
+                       , Border.rounded 6
+                       , Element.paddingEach { top = 0, bottom = 0, left = 0, right = 8 }
+                       ]
+                )
                 [ icon style.textAccent
                 , Element.text labelText
                 ]
         }
 
 
-switcher : Theme.Style -> Element Msg
-switcher style =
+switcher : Theme.Style -> ResumeView -> Element Msg
+switcher style activeResumeView =
     let
-        button : ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
+        button : Bool -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
         button =
             switcherButton style
     in
-    Element.row [ Element.spacingXY 16 0, Element.centerX ]
-        [ button Essay "Essay" Icon.essay
-        , button Bullets "Bullets" Icon.bullets
+    Element.row [ Element.spacingXY 8 0, Element.centerX ]
+        [ button (activeResumeView == Essay) Essay "Essay" Icon.essay
+        , button (activeResumeView == Bullets) Bullets "Bullets" Icon.bullets
         ]
