@@ -53,7 +53,7 @@ light =
 dark : Style
 dark =
     { textBase = lightGray
-    , textAccent = yellow
+    , textAccent = gold
     , background = charcoal
     , schemeIcon = Sun
     }
@@ -103,3 +103,13 @@ charcoal =
 lightGray : Element.Color
 lightGray =
     Element.rgb255 0xAA 0xAA 0xAA
+
+
+gold : Element.Color
+gold =
+    Element.rgb255 0xFF 0xD7 0x00
+
+
+goldenrod : Element.Color
+goldenrod =
+    Element.rgb255 0xB8 0x86 0x0B
