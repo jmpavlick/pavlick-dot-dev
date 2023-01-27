@@ -2,9 +2,9 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events as Bvents
-import Element as Element
+import Element exposing (Element)
 import Element.Background as Background
-import Theme exposing (Theme(..))
+import Theme exposing (Theme)
 
 
 main : Program Flags Model Msg
@@ -82,17 +82,21 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view { device, theme, resumeView } =
     let
-        style : Theme.Style
+        style : Theme.ApplyStyle a b
         style =
-            (\(Theme _ sstyle) -> sstyle) theme
+            Theme.style theme
     in
     { title = "pavlick dot dev"
     , body =
         [ Element.layout
-            [ Background.color
-                style.background
+            [ style Background.color .background
             ]
           <|
-            Element.text "hello"
+            page style resumeView
         ]
     }
+
+
+page : Theme.ApplyStyle a b -> ResumeView -> Element Msg
+page style resumeView =
+    Element.text "yooo"

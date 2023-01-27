@@ -1,4 +1,4 @@
-module Theme exposing (Style, Theme(..), init, mapSchemeIcon, toggle)
+module Theme exposing (ApplyStyle, Style, Theme, init, mapSchemeIcon, style, toggle)
 
 import Element as Element exposing (Element)
 import Icon
@@ -31,6 +31,15 @@ type Theme
     = Theme Scheme Style
 
 
+type alias ApplyStyle a b =
+    (a -> b) -> (Style -> a) -> b
+
+
+style : Theme -> ApplyStyle a b
+style (Theme _ s) func accessor =
+    accessor s |> func
+
+
 type Scheme
     = Light
     | Dark
@@ -60,15 +69,15 @@ type SchemeIcon
 
 
 mapSchemeIcon : Style -> Element msg
-mapSchemeIcon style =
-    (case style.schemeIcon of
+mapSchemeIcon s =
+    (case s.schemeIcon of
         Sun ->
             Icon.sun
 
         Moon ->
             Icon.moon
     )
-        style.textAccent
+        s.textAccent
 
 
 
