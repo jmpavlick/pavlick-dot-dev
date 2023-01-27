@@ -8,7 +8,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Icon
-import Markdown.Html as Mhtml
+import Markdown
 import Theme exposing (Theme)
 
 
@@ -32,6 +32,7 @@ type alias Model =
     { device : Element.Device
     , theme : Theme
     , resumeView : ResumeView
+    , resumes : Resumes
     }
 
 
@@ -41,18 +42,25 @@ type ResumeView
 
 
 init : Flags -> ( Model, Cmd Msg )
-init { initialWidth, initialHeight } =
+init { initialWidth, initialHeight, essay, bullets } =
     ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
       , theme = Theme.init
       , resumeView = Essay
+      , resumes = { essay = essay, bullets = bullets }
       }
     , Cmd.none
     )
 
 
+type alias Resumes =
+    { essay : String, bullets : String }
+
+
 type alias Flags =
     { initialWidth : Int
     , initialHeight : Int
+    , essay : String
+    , bullets : String
     }
 
 
@@ -85,7 +93,7 @@ subscriptions _ =
 
 
 view : Model -> Browser.Document Msg
-view { device, theme, resumeView } =
+view { device, theme, resumeView, resumes } =
     let
         style : Theme.Style
         style =
@@ -98,7 +106,7 @@ view { device, theme, resumeView } =
             , Font.color style.textBase
             ]
           <|
-            page style resumeView
+            page style resumeView resumes
         ]
     }
 
@@ -108,8 +116,8 @@ textLink style { url, label } =
     Element.newTabLink [ Font.color style.textAccent, Font.underline ] { url = url, label = Element.text label }
 
 
-page : Theme.Style -> ResumeView -> Element Msg
-page style resumeView =
+page : Theme.Style -> ResumeView -> Resumes -> Element Msg
+page style resumeView resumes =
     Element.column
         [ Element.width Element.fill
         , Element.padding 20
@@ -121,6 +129,7 @@ page style resumeView =
         , title
         , description (textLink style)
         , switcher style resumeView
+        , resumeContent style resumeView resumes
         ]
 
 
@@ -220,6 +229,14 @@ switcher style activeResumeView =
         ]
 
 
-resumeContent : Theme.Style -> ResumeView -> Element Msg
-resumeContent style activeResumeView =
-    Element.text "yooo i'm good at work and jobs etc"
+resumeContent : Theme.Style -> ResumeView -> Resumes -> Element Msg
+resumeContent style activeResumeView { essay, bullets } =
+    Markdown.toHtml []
+        (case activeResumeView of
+            Essay ->
+                essay
+
+            Bullets ->
+                bullets
+        )
+        |> Element.html
