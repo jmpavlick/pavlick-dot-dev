@@ -4,6 +4,7 @@ import Browser
 import Browser.Events as Bvents
 import Element exposing (Element)
 import Element.Background as Background
+import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Theme exposing (Theme)
@@ -100,6 +101,11 @@ view { device, theme, resumeView } =
     }
 
 
+textLink : Theme.Style -> { url : String, label : String } -> Element msg
+textLink style { url, label } =
+    Element.newTabLink [ Font.color style.textAccent, Font.underline ] { url = url, label = Element.text label }
+
+
 page : Theme.Style -> ResumeView -> Element Msg
 page style resumeView =
     Element.column
@@ -140,7 +146,19 @@ navbar style =
 
 title : Element msg
 title =
-    Element.none
+    Element.column [ Element.centerX ]
+        [ Element.el
+            [ Element.width <| Element.px 128
+            , Element.height <| Element.px 128
+            , Element.centerX
+            , Border.rounded 64
+            , Element.clip
+            ]
+          <|
+            Element.image [ Element.width <| Element.px 128, Element.height <| Element.px 128 ] { src = "./john.png", description = "john pavlick" }
+        , Element.el [ Element.centerX ] <| Element.text "john pavlick"
+        , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
+        ]
 
 
 description : Element msg
