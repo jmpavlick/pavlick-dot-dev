@@ -17,12 +17,13 @@
                               , initialHeight : window.innerHeight
                               , essay : essay
                               , bullets : bullets
+                              , preferences : JSON.parse(localStorage.getItem('preferences'))
                               } 
                     }
                 );
                 
                 app.ports.store.subscribe(preferences => {
-                    localStorage.setItem(preferences.key, JSON.stringify(preferences.value));
+                    localStorage.setItem('preferences', JSON.stringify(preferences));
                 });
         });
     </script>

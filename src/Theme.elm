@@ -1,7 +1,8 @@
-module Theme exposing (Style, Theme, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
+module Theme exposing (Style, Theme, decoder, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
 
 import Element as Element exposing (Element)
 import Icon
+import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 
 
@@ -28,6 +29,23 @@ encoder (Theme scheme _) =
 
         Dark ->
             Encode.string "Dark"
+
+
+decoder : Decoder Theme
+decoder =
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "Light" ->
+                        Decode.succeed light
+
+                    "Dark" ->
+                        Decode.succeed dark
+
+                    _ ->
+                        "Expected 'Light' or 'Dark', got " ++ str |> Decode.fail
+            )
 
 
 toggle : Theme -> Theme

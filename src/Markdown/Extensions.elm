@@ -16,7 +16,6 @@ import Markdown.Renderer as Renderer exposing (Renderer)
 render : String -> Result String (List (Element msg))
 render markdown =
     Parser.parse markdown
-        |> Debug.log "ast"
         |> Result.mapError
             (\error ->
                 List.map Parser.deadEndToString error

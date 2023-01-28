@@ -8,7 +8,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Icon
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 import Markdown.Extensions as MarkdownE
 import Theme exposing (Theme)
@@ -43,11 +43,39 @@ type ResumeView
     | Bullets
 
 
+resumeViewDecoder : Decoder ResumeView
+resumeViewDecoder =
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "Essay" ->
+                        Decode.succeed Essay
+
+                    "Bullets" ->
+                        Decode.succeed Bullets
+
+                    _ ->
+                        "Expected 'Essay' or 'Bullets', got " ++ str |> Decode.fail
+            )
+
+
 init : Flags -> ( Model, Cmd Msg )
-init { initialWidth, initialHeight, essay, bullets } =
+init { initialWidth, initialHeight, essay, bullets, preferences } =
+    let
+        maybePrefs : Maybe { theme : Theme, resumeView : ResumeView }
+        maybePrefs =
+            Decode.decodeValue
+                (Decode.map2 (\t rv -> { theme = t, resumeView = rv })
+                    (Decode.field "theme" Theme.decoder)
+                    (Decode.field "resumeView" resumeViewDecoder)
+                )
+                preferences
+                |> Result.toMaybe
+    in
     ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
-      , theme = Theme.init
-      , resumeView = Bullets
+      , theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
+      , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
       , resumes = { essay = essay, bullets = bullets }
       }
     , Cmd.none
@@ -60,20 +88,15 @@ port store : Encode.Value -> Cmd msg
 savePreferences : { model | theme : Theme, resumeView : ResumeView } -> Cmd msg
 savePreferences { theme, resumeView } =
     Encode.object
-        [ ( "key", Encode.string "preferences" )
-        , ( "value"
-          , Encode.object
-                [ ( "theme", Theme.encoder theme )
-                , ( "resumeView"
-                  , Encode.string <|
-                        case resumeView of
-                            Essay ->
-                                "Essay"
+        [ ( "theme", Theme.encoder theme )
+        , ( "resumeView"
+          , Encode.string <|
+                case resumeView of
+                    Essay ->
+                        "Essay"
 
-                            Bullets ->
-                                "Bullets"
-                  )
-                ]
+                    Bullets ->
+                        "Bullets"
           )
         ]
         |> store
@@ -88,6 +111,7 @@ type alias Flags =
     , initialHeight : Int
     , essay : String
     , bullets : String
+    , preferences : Encode.Value
     }
 
 
