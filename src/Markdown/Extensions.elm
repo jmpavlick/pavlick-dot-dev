@@ -16,6 +16,7 @@ import Markdown.Renderer as Renderer exposing (Renderer)
 render : String -> Result String (List (Element msg))
 render markdown =
     Parser.parse markdown
+        |> Debug.log "ast"
         |> Result.mapError
             (\error ->
                 List.map Parser.deadEndToString error
@@ -102,32 +103,6 @@ blockQuote =
         ]
 
 
-taskToBullet : Block.Task -> Element msg
-taskToBullet task =
-    let
-        bullet : Element msg
-        bullet =
-            case task of
-                Block.IncompleteTask ->
-                    Input.defaultCheckbox False
-
-                Block.CompletedTask ->
-                    Input.defaultCheckbox True
-
-                Block.NoTask ->
-                    Element.text "•"
-    in
-    Element.el
-        [ Element.paddingEach
-            { top = 0
-            , bottom = 0
-            , left = 0
-            , right = 4
-            }
-        ]
-        bullet
-
-
 unorderedListItem : Block.ListItem (Element msg) -> Element msg
 unorderedListItem (Block.ListItem task children) =
     let
@@ -154,7 +129,12 @@ unorderedListItem (Block.ListItem task children) =
             , Element.alignTop
             ]
             bullet
-        , Element.column [] children
+        , Element.column [ Element.width Element.fill ]
+            [ Element.paragraph
+                [ Element.paddingEach { top = 0, bottom = 8, left = 0, right = 0 }
+                ]
+                children
+            ]
         ]
 
 

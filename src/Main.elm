@@ -104,6 +104,13 @@ view { device, theme, resumeView, resumes } =
         [ Element.layout
             [ Background.color style.background
             , Font.color style.textBase
+            , Font.family
+                [ Font.external
+                    { name = "Libre Baskerville"
+                    , url = "https://fonts.googleapis.com/css?family=Libre+Baskerville"
+                    }
+                , Font.serif
+                ]
             ]
           <|
             page style resumeView resumes
