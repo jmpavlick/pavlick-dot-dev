@@ -175,8 +175,8 @@ title =
             ]
           <|
             Element.image [ Element.width <| Element.px imageSize, Element.height <| Element.px imageSize ] { src = "./john.png", description = "john pavlick" }
-        , Element.el [ Element.centerX ] <| Element.text "john pavlick"
-        , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
+        , Element.el [ Element.centerX, Font.size 24 ] <| Element.text "john pavlick"
+        , Element.el [ Element.centerX ] <| Element.text "consultant <> senior engineer <> tech lead"
         ]
 
 
