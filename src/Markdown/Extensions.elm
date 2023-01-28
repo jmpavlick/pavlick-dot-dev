@@ -7,7 +7,7 @@ import Element.Input as Input
 import Element.Region as Region
 import Html exposing (Html)
 import Html.Attributes as Attr
-import Markdown.Block as Block
+import Markdown.Block as Block exposing (Block)
 import Markdown.Html as MHtml
 import Markdown.Parser as Parser
 import Markdown.Renderer as Renderer exposing (Renderer)
@@ -16,7 +16,6 @@ import Markdown.Renderer as Renderer exposing (Renderer)
 render : String -> Result String (List (Element msg))
 render markdown =
     Parser.parse markdown
-        |> Debug.log "ast"
         |> Result.mapError
             (\error ->
                 List.map Parser.deadEndToString error
@@ -103,31 +102,51 @@ blockQuote =
         ]
 
 
+taskToBullet : Block.Task -> Element msg
+taskToBullet task =
+    let
+        bullet : Element msg
+        bullet =
+            case task of
+                Block.IncompleteTask ->
+                    Input.defaultCheckbox False
+
+                Block.CompletedTask ->
+                    Input.defaultCheckbox True
+
+                Block.NoTask ->
+                    Element.text "•"
+    in
+    Element.el
+        [ Element.paddingEach
+            { top = 0
+            , bottom = 0
+            , left = 0
+            , right = 4
+            }
+        ]
+        bullet
+
+
+unorderedListItem : Block.ListItem (Element msg) -> Element msg
+unorderedListItem (Block.ListItem task children) =
+    Element.column
+        [ Element.paddingEach { top = 0, bottom = 0, left = 16, right = 0 }
+        , Element.explain Debug.todo
+        ]
+        [ List.map
+            (\c ->
+                Element.row [] [ taskToBullet task, c ]
+            )
+            children
+            |> Element.column []
+        ]
+
+
 unorderedList : List (Block.ListItem (Element msg)) -> Element msg
 unorderedList items =
-    Element.column [ Element.spacing 15 ]
-        (items
-            |> List.map
-                (\(Block.ListItem task children) ->
-                    Element.row [ Element.spacing 5 ]
-                        [ Element.row
-                            [ Element.alignTop ]
-                            ((case task of
-                                Block.IncompleteTask ->
-                                    Input.defaultCheckbox False
-
-                                Block.CompletedTask ->
-                                    Input.defaultCheckbox True
-
-                                Block.NoTask ->
-                                    Element.text "•"
-                             )
-                                :: Element.text " "
-                                :: children
-                            )
-                        ]
-                )
-        )
+    List.map unorderedListItem items
+        |> Element.column [ Element.spacing 15 ]
 
 
 orderedList : Int -> List (List (Element msg)) -> Element msg
