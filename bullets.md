@@ -3,7 +3,7 @@
 ## Caribou Financial - Washington, DC (Remote)
 ### Sr. Elm / Haskell Engineer & Tech Lead, 2022-2023
 
-Caribou Financial is a fintech company in the automotive refinance space. I joined the organization as a Senior Elm / Haskell Fullstack Engineer and moved into a Tech Lead role shortly after my start date.
+Caribou Financial is a fintech company in the automotive refinance space. I joined the organization as a Sr. Elm / Haskell Engineer and moved into a Tech Lead role shortly after my start date.
 
 * Worked with business-facing stakeholders to understand their domains, so that we could add value by building software that models those domains
 * Lead several architectural design initiatives to extend the lifespan of legacy systems while laying the groundwork for their eventual replacement

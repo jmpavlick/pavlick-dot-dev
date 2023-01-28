@@ -2,7 +2,7 @@
 
 ## Gatesnap Labs
 
-**In 2022**, I decided to hire some of my friends to help me **create my own software product company**. As a hobby, I race bicycle motocross professionally; I have a thorough and systemic knowledge of every aspect of the sport, and I've decided to use that experience to **launch products in an underserved niche**. We have just launched our first product - Gearbag, a truly unique cross-platform mobile application that makes it easier to calculate, compare, and adjust bicycle gearing. I've built the application with **Elm and Ionic Capacitor**. (More information is available at https://gatesnaplabs.com/)
+**In 2022**, I decided to hire some of my friends to help me **create my own software product company**. As a hobby, I race bicycle motocross professionally; I have a thorough and systemic knowledge of every aspect of the sport, and I've decided to use that experience to **launch products in an underserved niche**. We have just launched our first product - Gearbag, a truly unique cross-platform mobile application that makes it easier to calculate, compare, and adjust bicycle gearing. I've built the application with **Elm and Ionic Capacitor**.
 
 I've not only had an opportunity to tackle greenfield engineering work in an unfamiliar domain - this is my first mobile app - but I've also been able to develop my leadership skills to a greater extent, as well as **oversee the development of a product end-to-end**. We're in our launch and marketing cycle for Gearbag right now, with a few other products in the pipeline.
 
@@ -10,9 +10,11 @@ Ultimately, while I believe that profitability is possible, none of these ideas 
 
 ## Caribou Financial - Washington, DC (Remote)
 
-**From 2022 - 2023,** I worked as a **Sr. Elm / Haskell Engineer and Tech Lead** at Caribou Financial. I started on the product team for their insurance rate-shopping platform, and performed some major code-quality refactoring operations on our frontend - including **implementing Builder-pattern** for some of our input widgets, and **setting up elm-review for the codebase**. However, the insurance rate-shopping platform has been de-prioritized in the wake of the recent economic climate, and my team has been shifted to higher-priority work within the organization.
+**From 2022 - 2023,** I worked as a **Sr. Elm / Haskell Engineer and Tech Lead** at Caribou Financial. I started on the product team for their insurance rate-shopping platform, and performed some major code-quality refactoring operations on our frontend - including **implementing the Builder-pattern** for some of our input widgets, and **setting up elm-review for the codebase**. However, the insurance rate-shopping platform was de-prioritized due to lack of available marketing resources, and my team was shifted to higher-priority work within the organization.
 
-After a brief stint working on an **event-driven Kafka data mesh in Haskell**, my team and I have landed on a project to fundamentally change the organization's relationship with its general ledger. I am currently the **Tech Lead** on an initiative that is projected to **increase our revenue by $250,000/mo starting in early 2023**; and these days I spend most of my time wading through unfamiliar codebases, documenting them, and writing well-groomed Jira stories to enable my developers to spend their time doing deep work.
+After a brief stint working on an **event-driven Kafka data mesh in Haskell**, my team and I were assigned to own the domain of "post-fund" - i.e., activities and processes for automotive refinance loans that had been funded by new lenders. I moved to act as **Tech Lead** and led an initiative that was projected to **increase our revenue by $250,000/mo**; unfortunately, our organization succumbed to the pressures of the economic climate, and my team was laid off along with a large portion of our engineering and product organization.
+
+As Tech Lead, I shifted my focus away from hands-on engineering work and spent most of my time working with my Product Manager and Engineering Manager to scope, plan, scale, and schedule work. Ultimately, I'd prefer a role that has a healthier balance of engineering and leadership; but as I spend quite a bit of my time outside of my working hours writing code and building products, I am content to work in a way that gives me an opportunity to develop my people-leadership skills more directly.
 
 ## Ideal Machinery - Holly, MI
 
