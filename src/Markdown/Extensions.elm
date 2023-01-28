@@ -132,11 +132,12 @@ unorderedListItem : Block.ListItem (Element msg) -> Element msg
 unorderedListItem (Block.ListItem task children) =
     Element.column
         [ Element.paddingEach { top = 0, bottom = 0, left = 16, right = 0 }
-        , Element.explain Debug.todo
+
+        --, Element.explain Debug.todo
         ]
         [ List.map
             (\c ->
-                Element.row [] [ taskToBullet task, c ]
+                Element.row [] [ c ]
             )
             children
             |> Element.column []
@@ -146,7 +147,7 @@ unorderedListItem (Block.ListItem task children) =
 unorderedList : List (Block.ListItem (Element msg)) -> Element msg
 unorderedList items =
     List.map unorderedListItem items
-        |> Element.column [ Element.spacing 15 ]
+        |> Element.column [ Element.spacing 0 ]
 
 
 orderedList : Int -> List (List (Element msg)) -> Element msg
@@ -167,3 +168,20 @@ orderedList startingIndex items =
 codeBlock : { body : String, language : Maybe String } -> Element msg
 codeBlock { body } =
     Html.pre [] [ Html.text body ] |> Element.html
+
+
+accursedUnutterable : Element msg -> Html msg
+accursedUnutterable =
+    Element.layoutWith { options = [ Element.noStaticStyleSheet ] } []
+
+
+ul : List (Element msg) -> Element msg
+ul =
+    List.map accursedUnutterable
+        >> Html.ul []
+        >> Element.html
+
+
+li : Element msg -> Element msg
+li =
+    accursedUnutterable >> List.singleton >> Html.li [] >> Element.html
