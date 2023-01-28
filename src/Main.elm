@@ -190,6 +190,7 @@ page style resumeView resumes =
         , description (textLink style)
         , switcher style resumeView
         , resumeContent style resumeView resumes
+        , footer style
         ]
 
 
@@ -312,3 +313,19 @@ resumeContent style activeResumeView { essay, bullets } =
 
         Err error ->
             Element.text error
+
+
+footer : Theme.Style -> Element Msg
+footer style =
+    Element.row
+        [ Element.width <| Element.px 300
+        , Element.centerX
+        , Element.alignBottom
+        , Element.spaceEvenly
+        ]
+        [ textLink style { url = "https://github.com/jmpavlick/pavlick-dot-dev", label = "Github" }
+        , Element.text "<>"
+        , textLink style { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Element.text "<>"
+        , textLink style { url = "https://dev.to/jmpavlick", label = "Essays" }
+        ]
