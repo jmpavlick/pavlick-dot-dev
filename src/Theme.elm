@@ -1,22 +1,43 @@
-module Theme exposing (Style, Theme, init, mapSchemeIcon, toggle, unwrapStyle)
+module Theme exposing (Style, Theme, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
 
 import Element as Element exposing (Element)
 import Icon
+import Json.Encode as Encode
+
+
+light : Theme
+light =
+    Theme Light lightStyle
+
+
+dark : Theme
+dark =
+    Theme Dark darkStyle
 
 
 init : Theme
 init =
-    Theme Light light
+    light
+
+
+encoder : Theme -> Encode.Value
+encoder (Theme scheme _) =
+    case scheme of
+        Light ->
+            Encode.string "Light"
+
+        Dark ->
+            Encode.string "Dark"
 
 
 toggle : Theme -> Theme
 toggle (Theme scheme _) =
     case scheme of
         Light ->
-            Theme Dark dark
+            dark
 
         Dark ->
-            Theme Light light
+            light
 
 
 type alias Style =
@@ -41,8 +62,8 @@ type Scheme
     | Dark
 
 
-light : Style
-light =
+lightStyle : Style
+lightStyle =
     { textBase = brown
     , textAccent = gray
     , background = straw
@@ -50,8 +71,8 @@ light =
     }
 
 
-dark : Style
-dark =
+darkStyle : Style
+darkStyle =
     { textBase = lightGray
     , textAccent = gold
     , background = charcoal

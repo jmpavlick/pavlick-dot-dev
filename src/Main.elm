@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser
 import Browser.Events as Bvents
@@ -8,6 +8,8 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Icon
+import Json.Decode as Decode
+import Json.Encode as Encode
 import Markdown.Extensions as MarkdownE
 import Theme exposing (Theme)
 
@@ -52,6 +54,31 @@ init { initialWidth, initialHeight, essay, bullets } =
     )
 
 
+port store : Encode.Value -> Cmd msg
+
+
+savePreferences : { model | theme : Theme, resumeView : ResumeView } -> Cmd msg
+savePreferences { theme, resumeView } =
+    Encode.object
+        [ ( "key", Encode.string "preferences" )
+        , ( "value"
+          , Encode.object
+                [ ( "theme", Theme.encoder theme )
+                , ( "resumeView"
+                  , Encode.string <|
+                        case resumeView of
+                            Essay ->
+                                "Essay"
+
+                            Bullets ->
+                                "Bullets"
+                  )
+                ]
+          )
+        ]
+        |> store
+
+
 type alias Resumes =
     { essay : String, bullets : String }
 
@@ -64,6 +91,16 @@ type alias Flags =
     }
 
 
+applyBoth : ( a -> b, a -> c ) -> a -> ( b, c )
+applyBoth ( func, gunc ) val =
+    ( func val, gunc val )
+
+
+step : Model -> ( Model, Cmd Msg )
+step =
+    applyBoth ( identity, savePreferences )
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -73,14 +110,10 @@ update msg model =
             )
 
         ClickedToggleTheme ->
-            ( { model | theme = Theme.toggle model.theme }
-            , Cmd.none
-            )
+            step { model | theme = Theme.toggle model.theme }
 
         ClickedResumeViewButton resumeView ->
-            ( { model | resumeView = resumeView }
-            , Cmd.none
-            )
+            step { model | resumeView = resumeView }
 
 
 subscriptions : Model -> Sub Msg

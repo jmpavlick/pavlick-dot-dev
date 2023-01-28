@@ -19,7 +19,11 @@
                               , bullets : bullets
                               } 
                     }
-                )
+                );
+                
+                app.ports.store.subscribe(preferences => {
+                    localStorage.setItem(preferences.key, JSON.stringify(preferences.value));
+                });
         });
     </script>
 </html>
