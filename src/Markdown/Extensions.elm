@@ -130,29 +130,43 @@ taskToBullet task =
 
 unorderedListItem : Block.ListItem (Element msg) -> Element msg
 unorderedListItem (Block.ListItem task children) =
-    Element.column
-        [ Element.paddingEach { top = 0, bottom = 0, left = 16, right = 0 }
+    let
+        bullet : Element msg
+        bullet =
+            case task of
+                Block.IncompleteTask ->
+                    Input.defaultCheckbox False
 
-        --, Element.explain Debug.todo
-        ]
-        [ List.map
-            (\c ->
-                Element.row [] [ c ]
-            )
-            children
-            |> Element.column []
+                Block.CompletedTask ->
+                    Input.defaultCheckbox True
+
+                Block.NoTask ->
+                    Element.text "•"
+    in
+    Element.row []
+        [ Element.el
+            [ Element.paddingEach
+                { top = 0
+                , bottom = 0
+                , left = 0
+                , right = 4
+                }
+            , Element.alignTop
+            ]
+            bullet
+        , Element.column [] children
         ]
 
 
 unorderedList : List (Block.ListItem (Element msg)) -> Element msg
 unorderedList items =
     List.map unorderedListItem items
-        |> Element.column [ Element.spacing 0 ]
+        |> Element.column []
 
 
 orderedList : Int -> List (List (Element msg)) -> Element msg
 orderedList startingIndex items =
-    Element.column [ Element.spacing 15 ] <|
+    Element.column [] <|
         List.indexedMap
             (\index itemBlocks ->
                 Element.row [ Element.spacing 5 ]
@@ -170,18 +184,20 @@ codeBlock { body } =
     Html.pre [] [ Html.text body ] |> Element.html
 
 
-accursedUnutterable : Element msg -> Html msg
-accursedUnutterable =
-    Element.layoutWith { options = [ Element.noStaticStyleSheet ] } []
+
+----
 
 
-ul : List (Element msg) -> Element msg
-ul =
-    List.map accursedUnutterable
-        >> Html.ul []
-        >> Element.html
+void : a -> b
+void a =
+    void a
 
 
-li : Element msg -> Element msg
-li =
-    accursedUnutterable >> List.singleton >> Html.li [] >> Element.html
+unsafeUnwrap : Maybe a -> a
+unsafeUnwrap value =
+    case value of
+        Just a ->
+            a
+
+        Nothing ->
+            void "blah"
