@@ -44,7 +44,7 @@ type Scheme
 light : Style
 light =
     { textBase = brown
-    , textAccent = lightGray
+    , textAccent = gray
     , background = straw
     , schemeIcon = Moon
     }
@@ -102,7 +102,12 @@ charcoal =
 
 lightGray : Element.Color
 lightGray =
-    Element.rgb255 0xAA 0xAA 0xAA
+    Element.rgb255 0xAF 0xAF 0xAF
+
+
+gray : Element.Color
+gray =
+    Element.rgb255 136 136 136
 
 
 gold : Element.Color
