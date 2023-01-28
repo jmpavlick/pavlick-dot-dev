@@ -161,16 +161,21 @@ navbar style =
 
 title : Element msg
 title =
+    let
+        imageSize : Int
+        imageSize =
+            192
+    in
     Element.column [ Element.centerX ]
         [ Element.el
-            [ Element.width <| Element.px 128
-            , Element.height <| Element.px 128
+            [ Element.width <| Element.px imageSize
+            , Element.height <| Element.px imageSize
             , Element.centerX
-            , Border.rounded 64
+            , Border.rounded (imageSize // 2)
             , Element.clip
             ]
           <|
-            Element.image [ Element.width <| Element.px 128, Element.height <| Element.px 128 ] { src = "./john.png", description = "john pavlick" }
+            Element.image [ Element.width <| Element.px imageSize, Element.height <| Element.px imageSize ] { src = "./john.png", description = "john pavlick" }
         , Element.el [ Element.centerX ] <| Element.text "john pavlick"
         , Element.el [ Element.centerX ] <| Element.text "consultant | senior engineer | tech lead"
         ]
