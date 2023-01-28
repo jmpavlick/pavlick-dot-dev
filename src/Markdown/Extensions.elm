@@ -182,22 +182,3 @@ orderedList startingIndex items =
 codeBlock : { body : String, language : Maybe String } -> Element msg
 codeBlock { body } =
     Html.pre [] [ Html.text body ] |> Element.html
-
-
-
-----
-
-
-void : a -> b
-void a =
-    void a
-
-
-unsafeUnwrap : Maybe a -> a
-unsafeUnwrap value =
-    case value of
-        Just a ->
-            a
-
-        Nothing ->
-            void "blah"
