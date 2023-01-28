@@ -105,10 +105,7 @@ view { device, theme, resumeView, resumes } =
             [ Background.color style.background
             , Font.color style.textBase
             , Font.family
-                [ Font.external
-                    { name = "Libre Baskerville"
-                    , url = "https://fonts.googleapis.com/css?family=Libre+Baskerville"
-                    }
+                [ Font.typeface "Libre Baskerville"
                 , Font.serif
                 ]
             ]
