@@ -59,19 +59,24 @@ heading :
     }
     -> Element msg
 heading { level, rawText, children } =
-    Element.paragraph
-        [ Font.size
-            (case level of
+    let
+        ( size, decoration ) =
+            case level of
                 Block.H1 ->
-                    24
+                    ( 24, Font.bold )
 
                 Block.H2 ->
-                    20
+                    ( 20, Font.underline )
+
+                Block.H3 ->
+                    ( 18, Font.bold )
 
                 _ ->
-                    16
-            )
-        , Font.bold
+                    ( 16, Element.htmlAttribute <| Attr.class "" )
+    in
+    Element.paragraph
+        [ Font.size size
+        , decoration
         , Region.heading <| Block.headingLevelToInt level
         ]
         children
@@ -124,14 +129,14 @@ unorderedListItem (Block.ListItem task children) =
                 { top = 0
                 , bottom = 0
                 , left = 0
-                , right = 4
+                , right = 8
                 }
             , Element.alignTop
             ]
             bullet
         , Element.column [ Element.width Element.fill ]
             [ Element.paragraph
-                [ Element.paddingEach { top = 0, bottom = 8, left = 0, right = 0 }
+                [ Element.paddingXY 0 4
                 ]
                 children
             ]

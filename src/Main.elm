@@ -45,7 +45,7 @@ init : Flags -> ( Model, Cmd Msg )
 init { initialWidth, initialHeight, essay, bullets } =
     ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
       , theme = Theme.init
-      , resumeView = Essay
+      , resumeView = Bullets
       , resumes = { essay = essay, bullets = bullets }
       }
     , Cmd.none
@@ -105,8 +105,7 @@ view { device, theme, resumeView, resumes } =
             [ Background.color style.background
             , Font.color style.textBase
             , Font.family
-                [ Font.typeface "Libre Baskerville"
-                , Font.serif
+                [ Font.serif
                 ]
             ]
           <|
