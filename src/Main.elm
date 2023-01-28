@@ -243,7 +243,7 @@ description link =
     Element.paragraph [ Font.justify ]
         [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
         , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
-        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've probably written more SQL than you have. Sometimes I write essays about the interesting parts of software engineering at "
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've written enough SQL to have been visited by Ted Codd's ghost in my dreams on multiple occasions. Sometimes I write essays about the interesting parts of software engineering at "
         , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
         , Element.text "."
         ]
