@@ -1,5 +1,15 @@
 # Professional Experience
 
+## Gatesnap Labs - Davison, MI
+### Founder, 2022 - Present
+
+Gatesnap Labs is a software company focused on the Olympic sport of bicycle motocross. I created Gatesnap Labs as a way to learn more about the process of launching software products into the market, and to develop my people leadership skills.
+
+* Designed, developed, and released Gearbag, a mobile and web application for calculating and comparing different gearing configurations for bicycle motocross racing
+* Worked with consultants to streamline the application's design and UX, as well as to develop a brand image, marketing site, and marketing materials
+* Released Gearbag to the App Store, Play Store, and the web
+* As of 2023, we are working on new products and services, as well as supporting users of Gearbag while continuing our marketing efforts
+
 ## Caribou Financial - Washington, DC (Remote)
 ### Sr. Elm / Haskell Engineer & Tech Lead, 2022-2023
 
