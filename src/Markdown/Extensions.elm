@@ -144,7 +144,7 @@ unorderedListItem (Block.ListItem task children) =
             ]
             bullet
         , Element.column [ Element.width Element.fill ]
-            [ Element.paragraph
+            [ Element.column
                 [ Element.paddingXY 0 4
                 ]
                 children

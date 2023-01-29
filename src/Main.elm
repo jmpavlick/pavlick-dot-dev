@@ -291,12 +291,11 @@ switcherButton style active resumeView labelText icon =
         { onPress = ClickedResumeViewButton resumeView |> Just
         , label =
             Element.row
-                (borderColor
-                    :: [ Border.width 2
-                       , Border.rounded 6
-                       , Element.paddingEach { top = 0, bottom = 0, left = 0, right = 8 }
-                       ]
-                )
+                [ Border.width 2
+                , borderColor
+                , Border.rounded 6
+                , Element.paddingEach { top = 0, bottom = 0, left = 0, right = 8 }
+                ]
                 [ icon style.textAccent
                 , Element.text labelText
                 ]
