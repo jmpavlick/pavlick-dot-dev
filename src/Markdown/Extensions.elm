@@ -51,34 +51,44 @@ renderer =
     }
 
 
+values : List (Maybe a) -> List a
+values =
+    List.filterMap identity
+
+
 heading :
     { level : Block.HeadingLevel
     , rawText : String
     , children : List (Element msg)
     }
     -> Element msg
-heading { level, rawText, children } =
+heading { level, children } =
     let
         ( size, decoration ) =
             case level of
                 Block.H1 ->
-                    ( 24, Font.bold )
+                    ( 24, Nothing )
 
                 Block.H2 ->
-                    ( 20, Font.underline )
+                    ( 20, Just Font.underline )
 
                 Block.H3 ->
-                    ( 18, Font.bold )
+                    ( 18, Nothing )
 
                 _ ->
-                    ( 16, Element.htmlAttribute <| Attr.class "" )
+                    ( 16, Nothing )
+
+        attrs : List (Attribute msg)
+        attrs =
+            decoration
+                :: List.map Just
+                    [ Font.size size
+                    , Font.bold
+                    , Region.heading <| Block.headingLevelToInt level
+                    ]
+                |> values
     in
-    Element.paragraph
-        [ Font.size size
-        , decoration
-        , Region.heading <| Block.headingLevelToInt level
-        ]
-        children
+    Element.paragraph attrs children
 
 
 codeSpan : String -> Element msg
