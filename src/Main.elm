@@ -226,7 +226,9 @@ title style =
         imageSize =
             192
     in
-    Element.column [ Element.centerX ]
+    Element.column
+        [ Element.centerX
+        ]
         [ Element.el
             [ Element.width <| Element.px imageSize
             , Element.height <| Element.px imageSize
@@ -245,7 +247,7 @@ title style =
             [ Element.centerX
             , Font.size 30
             , Font.bold
-            , Element.paddingEach { top = 4, left = 0, right = 0, bottom = 4 }
+            , Element.paddingXY 0 8
             ]
           <|
             Element.text "john pavlick"
