@@ -63,6 +63,7 @@ type alias Style =
     , textAccent : Element.Color
     , background : Element.Color
     , schemeIcon : SchemeIcon
+    , shadow : Element.Color
     }
 
 
@@ -86,6 +87,7 @@ lightStyle =
     , textAccent = gray
     , background = straw
     , schemeIcon = Moon
+    , shadow = brown
     }
 
 
@@ -95,6 +97,7 @@ darkStyle =
     , textAccent = gold
     , background = charcoal
     , schemeIcon = Sun
+    , shadow = darkGray
     }
 
 
@@ -129,11 +132,6 @@ brown =
     Element.rgb255 0x5F 0x4B 0x32
 
 
-yellow : Element.Color
-yellow =
-    Element.rgb255 0xEC 0xFF 0x00
-
-
 charcoal : Element.Color
 charcoal =
     Element.rgb255 0x42 0x42 0x42
@@ -144,6 +142,11 @@ lightGray =
     Element.rgb255 0xAF 0xAF 0xAF
 
 
+darkGray : Element.Color
+darkGray =
+    Element.rgb255 0x55 0x55 0x55
+
+
 gray : Element.Color
 gray =
     Element.rgb255 136 136 136
@@ -152,8 +155,3 @@ gray =
 gold : Element.Color
 gold =
     Element.rgb255 0xFF 0xD7 0x00
-
-
-goldenrod : Element.Color
-goldenrod =
-    Element.rgb255 0xB8 0x86 0x0B

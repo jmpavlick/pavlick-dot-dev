@@ -162,7 +162,10 @@ view { device, theme, resumeView, resumes } =
             [ Background.color style.background
             , Font.color style.textBase
             , Font.family
-                [ Font.serif
+                [ Font.external
+                    { name = "Cormorant Garamond"
+                    , url = "https://fonts.googleapis.com/css?family=Cormorant+Garamond"
+                    }
                 ]
             ]
           <|
@@ -185,8 +188,8 @@ page style resumeView resumes =
         , Element.width <| Element.maximum 800 Element.fill
         , Element.centerX
         ]
-        [ navbar style
-        , title
+        [ header style
+        , title style
         , description (textLink style)
         , switcher style resumeView
         , resumeContent style resumeView resumes
@@ -194,8 +197,8 @@ page style resumeView resumes =
         ]
 
 
-navbar : Theme.Style -> Element Msg
-navbar style =
+header : Theme.Style -> Element Msg
+header style =
     Element.row
         [ Element.width Element.fill
         , Element.spaceEvenly
@@ -216,8 +219,8 @@ navbar style =
         ]
 
 
-title : Element msg
-title =
+title : Theme.Style -> Element msg
+title style =
     let
         imageSize : Int
         imageSize =
@@ -230,20 +233,36 @@ title =
             , Element.centerX
             , Border.rounded (imageSize // 2)
             , Element.clip
+            , Border.shadow { offset = ( 3, 3 ), size = 2, blur = 5, color = style.shadow }
             ]
           <|
-            Element.image [ Element.width <| Element.px imageSize, Element.height <| Element.px imageSize ] { src = "./john.png", description = "john pavlick" }
-        , Element.el [ Element.centerX, Font.size 24 ] <| Element.text "john pavlick"
-        , Element.el [ Element.centerX ] <| Element.text "consultant <> senior engineer <> tech lead"
+            Element.image
+                [ Element.width <| Element.px imageSize
+                , Element.height <| Element.px imageSize
+                ]
+                { src = "./john.png", description = "john pavlick" }
+        , Element.el
+            [ Element.centerX
+            , Font.size 30
+            , Font.bold
+            , Element.paddingEach { top = 4, left = 0, right = 0, bottom = 4 }
+            ]
+          <|
+            Element.text "john pavlick"
+        , Element.el
+            [ Element.centerX
+            ]
+          <|
+            Element.text "consultant <> senior engineer <> tech lead"
         ]
 
 
 description : ({ url : String, label : String } -> Element msg) -> Element msg
 description link =
     Element.paragraph [ Font.justify ]
-        [ Element.text "I'm a leadership-track senior engineer by day, and a consultant by night. I'm creating interesting applications and services for the Olympic sport of bicycle motocross with some of my friends at "
+        [ Element.text "I'm a leadership-track senior engineer and consultant. I spend my free time creating interesting applications and services for the Olympic sport of bicycle motocross at "
         , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
-        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and I've written enough SQL to have been visited by Ted Codd's ghost in my dreams on multiple occasions. Sometimes I write essays about the interesting parts of software engineering at "
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and spent years as a data engineer. Sometimes I write essays about the interesting parts of software engineering at "
         , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
         , Element.text "."
         ]
