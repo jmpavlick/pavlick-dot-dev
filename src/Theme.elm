@@ -124,12 +124,12 @@ mapSchemeIcon s =
 
 straw : Element.Color
 straw =
-    Element.rgb255 0xFA 0xF0 0xD8
+    Element.rgba255 0xFF 0xF4 0xE3 0.3
 
 
 brown : Element.Color
 brown =
-    Element.rgb255 0x5F 0x4B 0x32
+    Element.rgb255 0x3E 0x31 0x21
 
 
 charcoal : Element.Color
