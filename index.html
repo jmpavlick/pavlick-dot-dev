@@ -13,8 +13,8 @@
             .then(([ essay, bullets ]) => {
                 let app = Elm.Main.init(
                     { node: document.getElementById('elm')
-                    , flags : { initialWidth : window.innerWidth
-                              , initialHeight : window.innerHeight
+                    , flags : { initialWidth : Math.round(window.innerWidth / window.devicePixelRatio)
+                              , initialHeight : Math.round(window.innerHeight / window.devicePixelRatio)
                               , essay : essay
                               , bullets : bullets
                               , preferences : JSON.parse(localStorage.getItem('preferences'))

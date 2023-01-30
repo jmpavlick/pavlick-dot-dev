@@ -164,7 +164,7 @@ view { device, theme, resumeView, resumes } =
             , (\size -> Font.size size) <|
                 case device.class of
                     Element.Phone ->
-                        50
+                        30
 
                     Element.Tablet ->
                         20
@@ -184,6 +184,38 @@ view { device, theme, resumeView, resumes } =
           <|
             page style resumeView resumes
         ]
+    }
+
+
+{-| lifted from elm-ui and updated to work on modern devices with insane pixel counts
+-}
+classifyDevice : { window | height : Int, width : Int } -> Element.Device
+classifyDevice window =
+    { class =
+        let
+            longSide =
+                max window.width window.height
+
+            shortSide =
+                min window.width window.height
+        in
+        if shortSide < 850 then
+            Element.Phone
+
+        else if longSide <= 1200 then
+            Element.Tablet
+
+        else if longSide > 1200 && longSide <= 1920 then
+            Element.Desktop
+
+        else
+            Element.BigDesktop
+    , orientation =
+        if window.width < window.height then
+            Element.Portrait
+
+        else
+            Element.Landscape
     }
 
 
