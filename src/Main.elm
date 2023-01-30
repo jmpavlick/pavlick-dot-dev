@@ -161,6 +161,19 @@ view { device, theme, resumeView, resumes } =
         [ Element.layout
             [ Background.color style.background
             , Font.color style.textBase
+            , (\size -> Font.size size) <|
+                case device.class of
+                    Element.Phone ->
+                        50
+
+                    Element.Tablet ->
+                        20
+
+                    Element.Desktop ->
+                        20
+
+                    Element.BigDesktop ->
+                        20
             , Font.family
                 [ Font.external
                     { name = "Cormorant Garamond"
