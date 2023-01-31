@@ -37,6 +37,8 @@ type alias Model =
     , resumeView : ResumeView
     , resumes : Resumes
     , devicePixelRatio : Int
+    , innerWidth : Int
+    , innerHeight : Int
     }
 
 
@@ -80,6 +82,8 @@ init { initialWidth, initialHeight, essay, bullets, preferences, devicePixelRati
       , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
       , resumes = { essay = essay, bullets = bullets }
       , devicePixelRatio = devicePixelRatio
+      , innerWidth = initialWidth
+      , innerHeight = initialHeight
       }
     , Cmd.none
     )
@@ -133,7 +137,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ResizedWindow windowWidth windowHeight ->
-            ( { model | device = ElementE.classifyDeviceWithRatio { width = windowWidth, height = windowHeight, devicePixelRatio = model.devicePixelRatio } }
+            ( { model
+                | device =
+                    ElementE.classifyDeviceWithRatio { width = windowWidth, height = windowHeight, devicePixelRatio = model.devicePixelRatio }
+                , innerWidth = windowWidth
+                , innerHeight = windowHeight
+              }
             , Cmd.none
             )
 
@@ -355,8 +364,7 @@ resumeContent deviceClass activeResumeView { essay, bullets } =
 footer : Theme.Style -> Element Msg
 footer style =
     Element.row
-        [ Element.width <| Element.px 300
-        , Element.centerX
+        [ Element.centerX
         , Element.alignBottom
         , Element.spaceEvenly
         ]
