@@ -5,6 +5,7 @@ import Browser.Events as Bvents
 import Element exposing (Attribute, Element)
 import Element.Background as Background
 import Element.Border as Border
+import Element.Extensions as ElementE
 import Element.Font as Font
 import Element.Input as Input
 import Icon
@@ -164,7 +165,7 @@ view { device, theme, resumeView, resumes } =
             , (\size -> Font.size size) <|
                 case device.class of
                     Element.Phone ->
-                        30
+                        50
 
                     Element.Tablet ->
                         20
@@ -182,40 +183,8 @@ view { device, theme, resumeView, resumes } =
                 ]
             ]
           <|
-            page style resumeView resumes
+            page device.class style resumeView resumes
         ]
-    }
-
-
-{-| lifted from elm-ui and updated to work on modern devices with insane pixel counts
--}
-classifyDevice : { window | height : Int, width : Int } -> Element.Device
-classifyDevice window =
-    { class =
-        let
-            longSide =
-                max window.width window.height
-
-            shortSide =
-                min window.width window.height
-        in
-        if shortSide < 850 then
-            Element.Phone
-
-        else if longSide <= 1200 then
-            Element.Tablet
-
-        else if longSide > 1200 && longSide <= 1920 then
-            Element.Desktop
-
-        else
-            Element.BigDesktop
-    , orientation =
-        if window.width < window.height then
-            Element.Portrait
-
-        else
-            Element.Landscape
     }
 
 
@@ -224,8 +193,8 @@ textLink style { url, label } =
     Element.newTabLink [ Font.color style.textAccent, Font.underline ] { url = url, label = Element.text label }
 
 
-page : Theme.Style -> ResumeView -> Resumes -> Element Msg
-page style resumeView resumes =
+page : Element.DeviceClass -> Theme.Style -> ResumeView -> Resumes -> Element Msg
+page deviceClass style resumeView resumes =
     Element.column
         [ Element.width Element.fill
         , Element.padding 20
@@ -234,10 +203,10 @@ page style resumeView resumes =
         , Element.centerX
         ]
         [ header style
-        , title style
+        , title deviceClass style
         , description (textLink style)
         , switcher style resumeView
-        , resumeContent style resumeView resumes
+        , resumeContent deviceClass resumeView resumes
         , footer style
         ]
 
@@ -264,8 +233,8 @@ header style =
         ]
 
 
-title : Theme.Style -> Element msg
-title style =
+title : Element.DeviceClass -> Theme.Style -> Element msg
+title deviceClass style =
     let
         imageSize : Int
         imageSize =
@@ -290,7 +259,7 @@ title style =
                 { src = "./john.png", description = "john pavlick" }
         , Element.el
             [ Element.centerX
-            , Font.size 30
+            , ElementE.headlineFontSize deviceClass
             , Font.bold
             , Element.paddingXY 0 8
             ]
@@ -360,8 +329,8 @@ switcher style activeResumeView =
         ]
 
 
-resumeContent : Theme.Style -> ResumeView -> Resumes -> Element Msg
-resumeContent style activeResumeView { essay, bullets } =
+resumeContent : Element.DeviceClass -> ResumeView -> Resumes -> Element Msg
+resumeContent deviceClass activeResumeView { essay, bullets } =
     let
         content : String
         content =
@@ -372,7 +341,7 @@ resumeContent style activeResumeView { essay, bullets } =
                 Bullets ->
                     bullets
     in
-    case MarkdownE.render content of
+    case MarkdownE.render deviceClass content of
         Ok elems ->
             Element.column [ Element.spacingXY 16 24 ] elems
 

@@ -2,6 +2,7 @@ module Markdown.Extensions exposing (render)
 
 import Element exposing (Attribute, Element)
 import Element.Border as Border
+import Element.Extensions as ElementE
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
@@ -13,20 +14,20 @@ import Markdown.Parser as Parser
 import Markdown.Renderer as Renderer exposing (Renderer)
 
 
-render : String -> Result String (List (Element msg))
-render markdown =
+render : Element.DeviceClass -> String -> Result String (List (Element msg))
+render deviceClass markdown =
     Parser.parse markdown
         |> Result.mapError
             (\error ->
                 List.map Parser.deadEndToString error
                     |> String.join "\n"
             )
-        |> Result.andThen (Renderer.render renderer)
+        |> Result.andThen (Renderer.render <| renderer deviceClass)
 
 
-renderer : Renderer (Element msg)
-renderer =
-    { heading = heading
+renderer : Element.DeviceClass -> Renderer (Element msg)
+renderer deviceClass =
+    { heading = heading deviceClass
     , paragraph = Element.paragraph [ Font.justify ]
     , thematicBreak = Element.none
     , text = Element.text
@@ -57,32 +58,34 @@ values =
 
 
 heading :
-    { level : Block.HeadingLevel
-    , rawText : String
-    , children : List (Element msg)
-    }
+    Element.DeviceClass
+    ->
+        { level : Block.HeadingLevel
+        , rawText : String
+        , children : List (Element msg)
+        }
     -> Element msg
-heading { level, children } =
+heading deviceClass { level, children } =
     let
-        ( size, decoration ) =
+        ( fontSize, decoration ) =
             case level of
                 Block.H1 ->
-                    ( 24, Nothing )
+                    ( ElementE.h1FontSize deviceClass, Nothing )
 
                 Block.H2 ->
-                    ( 20, Just Font.underline )
+                    ( ElementE.h2FontSize deviceClass, Just Font.underline )
 
                 Block.H3 ->
-                    ( 18, Nothing )
+                    ( ElementE.h3FontSize deviceClass, Nothing )
 
                 _ ->
-                    ( 16, Nothing )
+                    ( ElementE.baseFontSize deviceClass, Nothing )
 
         attrs : List (Attribute msg)
         attrs =
             decoration
                 :: List.map Just
-                    [ Font.size size
+                    [ fontSize
                     , Font.bold
                     , Region.heading <| Block.headingLevelToInt level
                     ]
