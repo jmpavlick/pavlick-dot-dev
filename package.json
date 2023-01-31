@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "elm make src/Main.elm --optimize --output=main.js",
-    "start": "elm-go src/Main.elm --open -- --output=main.js --debug"
+    "start": "elm-go src/Main.elm -h --open -- --output=main.js --debug"
   },
   "author": "",
   "license": "ISC",

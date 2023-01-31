@@ -5,29 +5,42 @@ import Html exposing (Html)
 import Ionicon.Ios as Icon
 
 
-map : (Int -> { red : Float, green : Float, blue : Float, alpha : Float } -> Html msg) -> (Element.Color -> Element msg)
+map : (Int -> { red : Float, green : Float, blue : Float, alpha : Float } -> Html msg) -> (Element.DeviceClass -> Element.Color -> Element msg)
 map icon =
-    \color ->
+    \deviceClass color ->
         Element.toRgb color
-            |> icon 40
+            |> icon
+                (case deviceClass of
+                    Element.Phone ->
+                        60
+
+                    Element.Tablet ->
+                        40
+
+                    Element.BigDesktop ->
+                        40
+
+                    Element.Desktop ->
+                        40
+                )
             |> Element.html
 
 
-moon : Element.Color -> Element msg
+moon : Element.DeviceClass -> Element.Color -> Element msg
 moon =
     map Icon.moonOutline
 
 
-sun : Element.Color -> Element msg
+sun : Element.DeviceClass -> Element.Color -> Element msg
 sun =
     map Icon.sunnyOutline
 
 
-essay : Element.Color -> Element msg
+essay : Element.DeviceClass -> Element.Color -> Element msg
 essay =
     map Icon.bookOutline
 
 
-bullets : Element.Color -> Element msg
+bullets : Element.DeviceClass -> Element.Color -> Element msg
 bullets =
     map Icon.listOutline

@@ -106,8 +106,8 @@ type SchemeIcon
     | Moon
 
 
-mapSchemeIcon : Style -> Element msg
-mapSchemeIcon s =
+mapSchemeIcon : Element.DeviceClass -> Style -> Element msg
+mapSchemeIcon dc s =
     (case s.schemeIcon of
         Sun ->
             Icon.sun
@@ -115,6 +115,7 @@ mapSchemeIcon s =
         Moon ->
             Icon.moon
     )
+        dc
         s.textAccent
 
 

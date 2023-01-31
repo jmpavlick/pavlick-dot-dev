@@ -202,17 +202,17 @@ page deviceClass style resumeView resumes =
         , Element.width <| Element.maximum 800 Element.fill
         , Element.centerX
         ]
-        [ header style
+        [ header deviceClass style
         , title deviceClass style
         , description (textLink style)
-        , switcher style resumeView
+        , switcher deviceClass style resumeView
         , resumeContent deviceClass resumeView resumes
         , footer style
         ]
 
 
-header : Theme.Style -> Element Msg
-header style =
+header : Element.DeviceClass -> Theme.Style -> Element Msg
+header deviceClass style =
     Element.row
         [ Element.width Element.fill
         , Element.spaceEvenly
@@ -228,7 +228,7 @@ header style =
             [ Element.focused []
             ]
             { onPress = Just ClickedToggleTheme
-            , label = Theme.mapSchemeIcon style
+            , label = Theme.mapSchemeIcon deviceClass style
             }
         ]
 
@@ -316,16 +316,16 @@ switcherButton style active resumeView labelText icon =
         }
 
 
-switcher : Theme.Style -> ResumeView -> Element Msg
-switcher style activeResumeView =
+switcher : Element.DeviceClass -> Theme.Style -> ResumeView -> Element Msg
+switcher deviceClass style activeResumeView =
     let
         button : Bool -> ResumeView -> String -> (Element.Color -> Element Msg) -> Element Msg
         button =
             switcherButton style
     in
     Element.row [ Element.spacingXY 8 0, Element.centerX ]
-        [ button (activeResumeView == Essay) Essay "Essay" Icon.essay
-        , button (activeResumeView == Bullets) Bullets "Bullets" Icon.bullets
+        [ button (activeResumeView == Essay) Essay "Essay" <| Icon.essay deviceClass
+        , button (activeResumeView == Bullets) Bullets "Bullets" <| Icon.bullets deviceClass
         ]
 
 
