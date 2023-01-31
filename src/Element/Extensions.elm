@@ -43,3 +43,8 @@ h2FontSize =
 h3FontSize : Element.DeviceClass -> Attribute msg
 h3FontSize =
     base >> (+) 4 >> Font.size
+
+
+classifyDeviceWithRatio : { width : Int, height : Int, devicePixelRatio : Int } -> Element.Device
+classifyDeviceWithRatio { width, height, devicePixelRatio } =
+    Element.classifyDevice { width = width // devicePixelRatio, height = height // devicePixelRatio }

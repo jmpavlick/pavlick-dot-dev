@@ -36,6 +36,7 @@ type alias Model =
     , theme : Theme
     , resumeView : ResumeView
     , resumes : Resumes
+    , devicePixelRatio : Int
     }
 
 
@@ -62,7 +63,7 @@ resumeViewDecoder =
 
 
 init : Flags -> ( Model, Cmd Msg )
-init { initialWidth, initialHeight, essay, bullets, preferences } =
+init { initialWidth, initialHeight, essay, bullets, preferences, devicePixelRatio } =
     let
         maybePrefs : Maybe { theme : Theme, resumeView : ResumeView }
         maybePrefs =
@@ -74,10 +75,11 @@ init { initialWidth, initialHeight, essay, bullets, preferences } =
                 preferences
                 |> Result.toMaybe
     in
-    ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
+    ( { device = ElementE.classifyDeviceWithRatio { width = initialWidth, height = initialHeight, devicePixelRatio = devicePixelRatio }
       , theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
       , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
       , resumes = { essay = essay, bullets = bullets }
+      , devicePixelRatio = devicePixelRatio
       }
     , Cmd.none
     )
@@ -113,6 +115,7 @@ type alias Flags =
     , essay : String
     , bullets : String
     , preferences : Encode.Value
+    , devicePixelRatio : Int
     }
 
 
@@ -130,7 +133,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ResizedWindow windowWidth windowHeight ->
-            ( { model | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
+            ( { model | device = ElementE.classifyDeviceWithRatio { width = windowWidth, height = windowHeight, devicePixelRatio = model.devicePixelRatio } }
             , Cmd.none
             )
 

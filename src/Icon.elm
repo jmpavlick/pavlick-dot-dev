@@ -12,7 +12,7 @@ map icon =
             |> icon
                 (case deviceClass of
                     Element.Phone ->
-                        60
+                        70
 
                     Element.Tablet ->
                         40
