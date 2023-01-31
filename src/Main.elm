@@ -1,7 +1,6 @@
 port module Main exposing (main)
 
 import Browser
-import Browser.Events as Bvents
 import Element exposing (Attribute, Element)
 import Element.Background as Background
 import Element.Border as Border
@@ -25,14 +24,12 @@ main =
 
 
 type Msg
-    = ResizedWindow Int Int
-    | ClickedToggleTheme
+    = ClickedToggleTheme
     | ClickedResumeViewButton ResumeView
 
 
 type alias Model =
-    { device : Element.Device
-    , theme : Theme
+    { theme : Theme
     , resumeView : ResumeView
     , resumes : Resumes
     }
@@ -61,7 +58,7 @@ resumeViewDecoder =
 
 
 init : Flags -> ( Model, Cmd Msg )
-init { initialWidth, initialHeight, essay, bullets, preferences } =
+init { essay, bullets, preferences } =
     let
         maybePrefs : Maybe { theme : Theme, resumeView : ResumeView }
         maybePrefs =
@@ -73,8 +70,7 @@ init { initialWidth, initialHeight, essay, bullets, preferences } =
                 preferences
                 |> Result.toMaybe
     in
-    ( { device = Element.classifyDevice { width = initialWidth, height = initialHeight }
-      , theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
+    ( { theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
       , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
       , resumes = { essay = essay, bullets = bullets }
       }
@@ -107,9 +103,7 @@ type alias Resumes =
 
 
 type alias Flags =
-    { initialWidth : Int
-    , initialHeight : Int
-    , essay : String
+    { essay : String
     , bullets : String
     , preferences : Encode.Value
     }
@@ -128,11 +122,6 @@ step =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ResizedWindow windowWidth windowHeight ->
-            ( { model | device = Element.classifyDevice { width = windowWidth, height = windowHeight } }
-            , Cmd.none
-            )
-
         ClickedToggleTheme ->
             step { model | theme = Theme.toggle model.theme }
 
@@ -142,7 +131,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Bvents.onResize (\w h -> ResizedWindow w h)
+    Sub.none
 
 
 
@@ -150,7 +139,7 @@ subscriptions _ =
 
 
 view : Model -> Browser.Document Msg
-view { device, theme, resumeView, resumes } =
+view { theme, resumeView, resumes } =
     let
         style : Theme.Style
         style =
