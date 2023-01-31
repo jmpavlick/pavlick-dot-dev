@@ -5,9 +5,9 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Html exposing (Html)
+import Html as HtmlU
 import Html.Attributes as Attr
-import Markdown.Block as Block exposing (Block)
+import Markdown.Block as Block
 import Markdown.Html as MHtml
 import Markdown.Parser as Parser
 import Markdown.Renderer as Renderer exposing (Renderer)
@@ -35,7 +35,7 @@ renderer =
     , strikethrough = Element.row [ Font.strike ]
     , codeSpan = codeSpan
     , link = link
-    , hardLineBreak = Element.html <| Html.br [] []
+    , hardLineBreak = Element.html <| HtmlU.br [] []
     , image = \img -> Element.image [ Element.width Element.fill ] { src = img.src, description = img.alt }
     , blockQuote = blockQuote
     , unorderedList = unorderedList
@@ -102,7 +102,7 @@ link :
     }
     -> List (Element msg)
     -> Element msg
-link { title, destination } body =
+link { destination } body =
     Element.newTabLink
         [ Element.htmlAttribute <| Attr.style "display" "inline-flex"
         ]
@@ -175,4 +175,4 @@ orderedList startingIndex items =
 
 codeBlock : { body : String, language : Maybe String } -> Element msg
 codeBlock { body } =
-    Html.pre [] [ Html.text body ] |> Element.html
+    HtmlU.pre [] [ HtmlU.text body ] |> Element.html

@@ -1,6 +1,6 @@
 module Icon exposing (bullets, essay, moon, sun)
 
-import Element as Element exposing (Element)
+import Element exposing (Element)
 import Html exposing (Html)
 import Ionicon.Ios as Icon
 

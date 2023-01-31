@@ -1,6 +1,6 @@
-module Theme exposing (Style, Theme, decoder, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
+module Theme exposing (SchemeIcon, Style, Theme, decoder, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
 
-import Element as Element exposing (Element)
+import Element exposing (Element)
 import Icon
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode

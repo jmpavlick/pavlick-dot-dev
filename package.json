@@ -5,6 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "elm make src/Main.elm --optimize --output=main.js",
+    "review": "elm-review",
+    "review-fix": "elm-review --fix",
+    "review-review": "elm-review --elmjson=\"review/elm.json\" --config=\"review/\" && git checkout review/suppressed",
+    "review-review-fix": "elm-review --fix --elmjson=\"review/elm.json\" --config=\"review/\" && git checkout review/suppressed",
+    "review-suppress": "elm-review suppress",
+    "review-watch": "elm-review --watch --fix",
     "start": "elm-go src/Main.elm --open -- --output=main.js --debug"
   },
   "author": "",
@@ -12,6 +18,7 @@
   "dependencies": {
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.5",
-    "elm-go": "^5.0.19"
+    "elm-go": "^5.0.19",
+    "elm-review": "^2.9.1"
   }
 }

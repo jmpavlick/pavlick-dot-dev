@@ -19,7 +19,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -129,11 +129,6 @@ update msg model =
             step { model | resumeView = resumeView }
 
 
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
-
-
 
 -- VIEW
 
@@ -181,7 +176,7 @@ page style resumeView resumes =
         , title style
         , description (textLink style)
         , switcher style resumeView
-        , resumeContent style resumeView resumes
+        , resumeContent resumeView resumes
         , footer style
         ]
 
@@ -304,8 +299,8 @@ switcher style activeResumeView =
         ]
 
 
-resumeContent : Theme.Style -> ResumeView -> Resumes -> Element Msg
-resumeContent style activeResumeView { essay, bullets } =
+resumeContent : ResumeView -> Resumes -> Element Msg
+resumeContent activeResumeView { essay, bullets } =
     let
         content : String
         content =
