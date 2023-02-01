@@ -1,6 +1,8 @@
 port module Main exposing (main)
 
+import AppUrl
 import Browser
+import Browser.Navigation as Nav
 import Element exposing (Attribute, Element)
 import Element.Background as Background
 import Element.Border as Border
@@ -11,12 +13,15 @@ import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 import Markdown.Extensions as MarkdownE
 import Theme exposing (Theme)
+import Url exposing (Url)
 
 
 main : Program Flags Model Msg
 main =
-    Browser.document
+    Browser.application
         { init = init
+        , onUrlChange = OnUrlChange
+        , onUrlRequest = ClickedLink
         , view = view
         , update = update
         , subscriptions = \_ -> Sub.none
@@ -26,6 +31,8 @@ main =
 type Msg
     = ClickedToggleTheme
     | ClickedResumeViewButton ResumeView
+    | ClickedLink Browser.UrlRequest
+    | OnUrlChange Url
 
 
 type alias Model =
@@ -57,8 +64,8 @@ resumeViewDecoder =
             )
 
 
-init : Flags -> ( Model, Cmd Msg )
-init { essay, bullets, preferences } =
+init : Flags -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init { essay, bullets, preferences } url _ =
     let
         maybePrefs : Maybe { theme : Theme, resumeView : ResumeView }
         maybePrefs =
@@ -70,10 +77,11 @@ init { essay, bullets, preferences } =
                 preferences
                 |> Result.toMaybe
     in
-    ( { theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
-      , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
-      , resumes = { essay = essay, bullets = bullets }
-      }
+    ( routeUrl url
+        { theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
+        , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
+        , resumes = { essay = essay, bullets = bullets }
+        }
     , Cmd.none
     )
 
@@ -119,6 +127,16 @@ step =
     applyBoth ( identity, savePreferences )
 
 
+routeUrl : Url -> Model -> Model
+routeUrl url model =
+    case (AppUrl.fromUrl >> .path) url of
+        [ "print" ] ->
+            { model | theme = Theme.print }
+
+        _ ->
+            model
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -127,6 +145,21 @@ update msg model =
 
         ClickedResumeViewButton resumeView ->
             step { model | resumeView = resumeView }
+
+        ClickedLink urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( routeUrl url model
+                    , Cmd.none
+                    )
+
+                Browser.External url ->
+                    ( model
+                    , Nav.load url
+                    )
+
+        OnUrlChange url ->
+            Debug.todo ""
 
 
 

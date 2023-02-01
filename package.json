@@ -11,7 +11,7 @@
     "review-review-fix": "elm-review --fix --elmjson=\"review/elm.json\" --config=\"review/\" && git checkout review/suppressed",
     "review-suppress": "elm-review suppress",
     "review-watch": "elm-review --watch --fix",
-    "start": "elm-go src/Main.elm --open -- --output=main.js --debug"
+    "start": "elm-go src/Main.elm --open --pushstate -- --output=main.js --debug"
   },
   "author": "",
   "license": "ISC",
