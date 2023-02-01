@@ -89,7 +89,7 @@ John Deere Landscapes was a landscaping supply distributor.
 
 # Skills
 
-* 10 years of software and data engineering experience
+* 13 years of software and data engineering experience
   * C#, F#, Haskell, Elm, Ruby, Scala, Java, JavaScript, bash
   * Postgresql, T-SQL
   * Azure, AWS, Docker

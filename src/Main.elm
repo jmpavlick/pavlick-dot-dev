@@ -133,7 +133,7 @@ routeUrl : Url -> Model -> Model
 routeUrl url model =
     case (AppUrl.fromUrl >> .path) url of
         [ "print" ] ->
-            { model | theme = Theme.print }
+            { model | theme = Theme.print, resumeView = Bullets }
 
         _ ->
             model
@@ -190,7 +190,7 @@ view { theme, resumeView, resumes } =
                 ]
             ]
           <|
-            page style resumeView resumes
+            page theme resumeView resumes
         ]
     }
 
@@ -200,8 +200,13 @@ textLink style { url, label } =
     Element.newTabLink [ Font.color style.textAccent, Font.underline ] { url = url, label = Element.text label }
 
 
-page : Theme.Style -> ResumeView -> Resumes -> Element Msg
-page style resumeView resumes =
+page : Theme -> ResumeView -> Resumes -> Element Msg
+page theme resumeView resumes =
+    let
+        style : Theme.Style
+        style =
+            Theme.unwrapStyle theme
+    in
     Element.column
         [ Element.width Element.fill
         , Element.padding 20
@@ -209,12 +214,12 @@ page style resumeView resumes =
         , Element.width <| Element.maximum 800 Element.fill
         , Element.centerX
         ]
-        [ header style
-        , title style
-        , description (textLink style)
-        , switcher style resumeView
+        [ Theme.printHide theme <| header style
+        , title theme
+        , description theme (textLink style)
+        , Theme.printHide theme <| switcher style resumeView
         , resumeContent resumeView resumes
-        , footer style
+        , Theme.printHide theme <| footer style
         ]
 
 
@@ -240,9 +245,13 @@ header style =
         ]
 
 
-title : Theme.Style -> Element msg
-title style =
+title : Theme -> Element msg
+title theme =
     let
+        style : Theme.Style
+        style =
+            Theme.unwrapStyle theme
+
         imageSize : Int
         imageSize =
             192
@@ -277,14 +286,30 @@ title style =
             ]
           <|
             Element.text "consultant <> senior engineer <> tech lead"
+        , Theme.printHide theme <|
+            Element.el
+                [ Element.centerX
+                , Element.paddingEach { top = 10, left = 0, right = 0, bottom = 0 }
+                , Font.size 16
+                ]
+            <|
+                Element.text "(\\n -> n :: [ \"pavlick.dev\" ] |> String.join \"@\") \"john\""
+        , Theme.printShow theme <|
+            Element.el
+                [ Element.centerX
+                , Element.paddingEach { top = 10, left = 0, right = 0, bottom = 0 }
+                ]
+            <|
+                Element.text "john@pavlick.dev"
         ]
 
 
-description : ({ url : String, label : String } -> Element msg) -> Element msg
-description link =
+description : Theme -> ({ url : String, label : String } -> Element msg) -> Element msg
+description theme link =
     Element.paragraph [ Font.justify ]
         [ Element.text "I'm a leadership-track senior engineer and consultant. I spend my free time creating interesting applications and services for the Olympic sport of bicycle motocross at "
-        , link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Theme.printHide theme <| link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
+        , Theme.printShow theme <| link { url = "https://gatesnaplabs.com", label = "https://gatesnaplabs.com" }
         , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and spent years as a data engineer. Sometimes I write essays about the interesting parts of software engineering at "
         , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
         , Element.text "."
