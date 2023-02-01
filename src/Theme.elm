@@ -1,4 +1,4 @@
-module Theme exposing (SchemeIcon, Style, Theme, decoder, encoder, init, mapSchemeIcon, toggle, unwrapStyle)
+module Theme exposing (SchemeIcon, Style, Theme, decoder, encoder, init, mapSchemeIcon, print, printHide, printShow, toggle, unwrapStyle)
 
 import Element exposing (Element)
 import Icon
@@ -16,6 +16,37 @@ dark =
     Theme Dark darkStyle
 
 
+print : Theme
+print =
+    Theme Print printStyle
+
+
+printHide : Theme -> Element msg -> Element msg
+printHide (Theme scheme _) elem =
+    case scheme of
+        Light ->
+            elem
+
+        Dark ->
+            elem
+
+        Print ->
+            Element.none
+
+
+printShow : Theme -> Element msg -> Element msg
+printShow (Theme scheme _) elem =
+    case scheme of
+        Light ->
+            Element.none
+
+        Dark ->
+            Element.none
+
+        Print ->
+            elem
+
+
 init : Theme
 init =
     light
@@ -29,6 +60,9 @@ encoder (Theme scheme _) =
 
         Dark ->
             Encode.string "Dark"
+
+        Print ->
+            Encode.string "Light"
 
 
 decoder : Decoder Theme
@@ -57,6 +91,9 @@ toggle (Theme scheme _) =
         Dark ->
             light
 
+        Print ->
+            light
+
 
 type alias Style =
     { textBase : Element.Color
@@ -79,6 +116,7 @@ unwrapStyle (Theme _ s) =
 type Scheme
     = Light
     | Dark
+    | Print
 
 
 lightStyle : Style
@@ -86,6 +124,16 @@ lightStyle =
     { textBase = brown
     , textAccent = gray
     , background = straw
+    , schemeIcon = Moon
+    , shadow = brown
+    }
+
+
+printStyle : Style
+printStyle =
+    { textBase = brown
+    , textAccent = gray
+    , background = white
     , schemeIcon = Moon
     , shadow = brown
     }
@@ -125,6 +173,11 @@ mapSchemeIcon s =
 straw : Element.Color
 straw =
     Element.rgba255 0xFF 0xF4 0xE3 0.3
+
+
+white : Element.Color
+white =
+    Element.rgb255 0xFF 0xFF 0xFF
 
 
 brown : Element.Color
