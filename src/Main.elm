@@ -310,7 +310,7 @@ description theme link =
         [ Element.text "I'm a leadership-track senior engineer and consultant. I spend my free time creating interesting applications and services for the Olympic sport of bicycle motocross at "
         , Theme.printHide theme <| link { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
         , Theme.printShow theme <| link { url = "https://gatesnaplabs.com", label = "https://gatesnaplabs.com" }
-        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C# and Ruby, and spent years as a data engineer. Sometimes I write essays about the interesting parts of software engineering at "
+        , Element.text ". I enjoy functional programming in Elm, Haskell, and F#; but I'm also comfortable with C#, Python, and Ruby, and spent years as a data engineer. Sometimes I write essays about the interesting parts of software engineering at "
         , link { url = "https://dev.to/jmpavlick", label = "dev.to/jmpavlick" }
         , Element.text "."
         ]
