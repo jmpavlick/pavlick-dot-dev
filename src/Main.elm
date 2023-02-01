@@ -39,6 +39,7 @@ type alias Model =
     { theme : Theme
     , resumeView : ResumeView
     , resumes : Resumes
+    , key : Nav.Key
     }
 
 
@@ -65,7 +66,7 @@ resumeViewDecoder =
 
 
 init : Flags -> Url -> Nav.Key -> ( Model, Cmd Msg )
-init { essay, bullets, preferences } url _ =
+init { essay, bullets, preferences } url key =
     let
         maybePrefs : Maybe { theme : Theme, resumeView : ResumeView }
         maybePrefs =
@@ -81,6 +82,7 @@ init { essay, bullets, preferences } url _ =
         { theme = Maybe.map .theme maybePrefs |> Maybe.withDefault Theme.init
         , resumeView = Maybe.map .resumeView maybePrefs |> Maybe.withDefault Essay
         , resumes = { essay = essay, bullets = bullets }
+        , key = key
         }
     , Cmd.none
     )
@@ -159,7 +161,7 @@ update msg model =
                     )
 
         OnUrlChange url ->
-            Debug.todo ""
+            Url.toString url |> Nav.pushUrl key
 
 
 
