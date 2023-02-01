@@ -161,7 +161,9 @@ update msg model =
                     )
 
         OnUrlChange url ->
-            Url.toString url |> Nav.pushUrl key
+            ( model
+            , Url.toString url |> Nav.pushUrl model.key
+            )
 
 
 
