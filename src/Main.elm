@@ -265,8 +265,7 @@ title theme =
             , Element.centerX
             , Border.rounded (imageSize // 2)
             , Element.clip
-
-            --, Border.shadow { offset = ( 3, 3 ), size = 2, blur = 5, color = style.shadow }
+            , Border.shadow { offset = ( 3, 3 ), size = 2, blur = 5, color = style.shadow }
             ]
           <|
             Element.image
