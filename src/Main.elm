@@ -293,7 +293,8 @@ title theme =
                 , Font.size 16
                 ]
             <|
-                Element.text "(\\n -> n :: [ \"pavlick.dev\" ] |> String.join \"@\") \"john\""
+                Element.text """"pavlick.dev" :: [] |> ((|>) "john" (::)) |> String.join "@"
+                """
         , Theme.printShow theme <|
             Element.el
                 [ Element.centerX
