@@ -385,12 +385,14 @@ resumeContent activeResumeView { essay, bullets } =
 footer : Theme.Style -> Element Msg
 footer style =
     Element.row
-        [ Element.width <| Element.px 300
+        [ Element.width <| Element.px 420
         , Element.centerX
         , Element.alignBottom
         , Element.spaceEvenly
         ]
         [ textLink style { url = "https://github.com/jmpavlick/pavlick-dot-dev", label = "Github" }
+        , Element.text "<>"
+        , textLink style { url = "https://twitter.com/lambdapriest", label = "@lambdapriest" }
         , Element.text "<>"
         , textLink style { url = "https://gatesnaplabs.com", label = "Gatesnap Labs" }
         , Element.text "<>"

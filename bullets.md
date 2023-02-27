@@ -1,5 +1,10 @@
 # Professional Experience
 
+## Vendr - Boston, MA (Remote)
+### Sr. Software Engineer, 2023 - Present
+
+Vendr is a software company whose primary product is a negotiation-as-a-service platform for SaaS purchasing and maintenance. Watch this space; there's more to come.
+
 ## Gatesnap Labs - Davison, MI
 ### Founder, 2022 - Present
 

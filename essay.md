@@ -1,5 +1,9 @@
 # Professional Experience
 
+## Vendr
+
+**In 2023**, I joined Vendr as a Sr. Software Engineer, where we're building a world-scale negotiation-as-a-service platform for SaaS purchasing with Elm and TypeScript. Watch this space; there's more to come.
+
 ## Gatesnap Labs
 
 **In 2022**, I decided to hire some of my friends to help me **create my own software product company**. As a hobby, I race bicycle motocross professionally; I have a thorough and systemic knowledge of every aspect of the sport, and I've decided to use that experience to **launch products in an underserved niche**. We have just launched our first product - Gearbag, a truly unique cross-platform mobile application that makes it easier to calculate, compare, and adjust bicycle gearing. I've built the application with **Elm and Ionic Capacitor**.
